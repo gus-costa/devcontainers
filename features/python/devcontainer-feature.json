@@ -1,0 +1,19 @@
+{
+    "$schema": "https://json.schemastore.org/devcontainer-feature.json",
+    "id": "python",
+    "version": "1.0.0",
+    "name": "Python",
+    "description": "Installs Python runtime with uv package manager. Uses deadsnakes PPA for non-default versions.",
+    "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/python",
+    "options": {
+        "version": {
+            "type": "string",
+            "default": "3.12",
+            "description": "Python version to install (e.g., 3.11, 3.12)"
+        }
+    },
+    "containerEnv": {
+        "UV_SYSTEM_PYTHON": "1"
+    },
+    "installsAfter": []
+}
