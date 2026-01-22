@@ -1,0 +1,52 @@
+# Docker Compose for Base Devcontainer
+# See: specs/base-template.md#docker-compose
+#
+# Capabilities:
+#   - NET_ADMIN: Required for iptables firewall rules
+#   - NET_RAW: Required for iptables packet inspection
+#
+# Networks:
+#   - devcontainer-proxy: External network shared with Squid proxy
+#     Created by: docker compose -f squid/docker-compose.yml up -d
+
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TIMEZONE: ${TIMEZONE:-UTC}
+
+    # Required for iptables firewall
+    # See: specs/architecture.md#security-model
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+    # Connect to Squid proxy network
+    # See: specs/squid-proxy.md#network
+    networks:
+      - devcontainer-proxy
+
+    volumes:
+      # Workspace mount
+      - ..:/workspace:cached
+
+      # Bash/zsh history persistence
+      - devcontainer-history:/home/dev/.local/share/history
+
+      # Optional: Claude config from host
+      # Uncomment to share Claude configuration
+      # - ${HOME}/.claude:/home/dev/.claude:cached
+
+    # Keep container running
+    command: sleep infinity
+
+volumes:
+  devcontainer-history:
+
+networks:
+  # External network created by Squid
+  # See: specs/squid-proxy.md#network
+  devcontainer-proxy:
+    external: true

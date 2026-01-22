@@ -1,0 +1,28 @@
+{
+  "id": "base",
+  "version": "1.0.0",
+  "name": "Base Development Container",
+  "description": "General-purpose development container with network isolation via Squid proxy and iptables firewall.",
+  "documentationURL": "https://github.com/gus-costa/devcontainers",
+  "publisher": "gus-costa",
+  "licenseURL": "https://github.com/gus-costa/devcontainers/blob/main/LICENSE",
+  "keywords": [
+    "devcontainer",
+    "debian",
+    "zsh",
+    "proxy",
+    "firewall",
+    "network-isolation"
+  ],
+  "options": {
+    "timezone": {
+      "type": "string",
+      "default": "UTC",
+      "description": "Container timezone (e.g., America/New_York, Europe/London)"
+    }
+  },
+  "platforms": [
+    "linux/amd64",
+    "linux/arm64"
+  ]
+}
