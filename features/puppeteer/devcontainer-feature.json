@@ -1,0 +1,16 @@
+{
+    "$schema": "https://json.schemastore.org/devcontainer-feature.json",
+    "id": "puppeteer",
+    "version": "1.0.0",
+    "name": "Puppeteer",
+    "description": "Installs Chromium and system dependencies for headless browser automation with Puppeteer.",
+    "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/puppeteer",
+    "options": {},
+    "containerEnv": {
+        "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true",
+        "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/chromium"
+    },
+    "installsAfter": [
+        "ghcr.io/gus-costa/devcontainers/features/node"
+    ]
+}
