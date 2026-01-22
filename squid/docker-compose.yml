@@ -1,0 +1,32 @@
+# Squid Proxy Service
+# See: specs/squid-proxy.md
+#
+# Usage:
+#   Start: docker compose -f squid/docker-compose.yml up -d
+#   Stop:  docker compose -f squid/docker-compose.yml down
+#   Logs:  docker logs devcontainer-squid
+#   Access log: docker exec devcontainer-squid tail -f /var/log/squid/access.log
+
+services:
+  squid:
+    build: .
+    container_name: devcontainer-squid
+    restart: unless-stopped
+    ports:
+      - "3128:3128"
+    volumes:
+      # Config mounted from host for easy editing
+      - ./squid.conf:/etc/squid/squid.conf:ro
+      # Persistent cache for performance
+      - squid-cache:/var/spool/squid
+    networks:
+      - devcontainer-proxy
+
+volumes:
+  squid-cache:
+
+networks:
+  # External network that devcontainers join
+  # See: specs/architecture.md
+  devcontainer-proxy:
+    name: devcontainer-proxy
