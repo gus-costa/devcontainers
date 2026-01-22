@@ -1,0 +1,35 @@
+{
+    "$schema": "https://json.schemastore.org/devcontainer-collection.json",
+    "templates": [
+        {
+            "id": "base",
+            "version": "1.0.0",
+            "name": "Base Development Container",
+            "description": "General-purpose development container with network isolation via Squid proxy and iptables firewall.",
+            "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/templates/base"
+        }
+    ],
+    "features": [
+        {
+            "id": "node",
+            "version": "1.0.0",
+            "name": "Node.js",
+            "description": "Installs Node.js runtime with npm. Uses NodeSource binaries.",
+            "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/node"
+        },
+        {
+            "id": "python",
+            "version": "1.0.0",
+            "name": "Python",
+            "description": "Installs Python runtime with uv package manager. Uses deadsnakes PPA for non-default versions.",
+            "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/python"
+        },
+        {
+            "id": "puppeteer",
+            "version": "1.0.0",
+            "name": "Puppeteer",
+            "description": "Installs Chromium and system dependencies for headless browser automation with Puppeteer.",
+            "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/puppeteer"
+        }
+    ]
+}
