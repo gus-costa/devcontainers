@@ -1,0 +1,17 @@
+{
+    "$schema": "https://json.schemastore.org/devcontainer-feature.json",
+    "id": "node",
+    "version": "1.0.0",
+    "name": "Node.js",
+    "description": "Installs Node.js runtime with npm. Uses NodeSource binaries.",
+    "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/node",
+    "options": {
+        "version": {
+            "type": "string",
+            "default": "22",
+            "description": "Node.js major version to install"
+        }
+    },
+    "containerEnv": {},
+    "installsAfter": []
+}
