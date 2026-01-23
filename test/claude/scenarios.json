@@ -1,0 +1,8 @@
+{
+    "claude": {
+        "image": "ghcr.com/gus-costa/base",
+        "features": {
+            "claude": {}
+        }
+    }
+}

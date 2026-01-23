@@ -64,6 +64,8 @@ Test projects are located in `test/` and `images/base/test-project/` to verify t
 | `images/base/test-project/` | Tests base template (zsh, git-delta, essential packages) |
 | `test/node/` | Tests Node.js feature (Node.js + npm through proxy) |
 | `test/python/` | Tests Python feature (Python + uv through proxy) |
+| `test/puppeteer/` | Tests Puppeteer feature (Chromium, system dependencies, puppeteer-mcp) |
+| `test/claude/` | Tests Claude feature (CLI installation, configuration, mounts) |
 
 To test:
 
