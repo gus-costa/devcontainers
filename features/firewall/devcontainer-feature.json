@@ -12,10 +12,10 @@
   "containerEnv": {},
 
   "installsAfter": [
-    "localhost:5000/python/python",
-    "localhost:5000/node/node",
-    "localhost:5000/claude/claude",
-    "localhost:5000/puppeteer/puppeteer",
-    "localhost:5000/github/github"
+    "ghcr.io/gus-costa/devcontainers/features/python:1",
+    "ghcr.io/gus-costa/devcontainers/features/node:1",
+    "ghcr.io/gus-costa/devcontainers/features/claude:1",
+    "ghcr.io/gus-costa/devcontainers/features/puppeteer:1",
+    "ghcr.io/gus-costa/devcontainers/features/github:1"
   ]
 }

@@ -10,6 +10,6 @@
         "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/chromium"
     },
     "installsAfter": [
-        "localhost:5000/node/node"
+        "ghcr.io/gus-costa/devcontainers/features/node:1"
     ]
 }

@@ -14,7 +14,7 @@
     "no_proxy": "localhost,127.0.0.1"
   },
   "dependsOn": {
-    "localhost:5000/firewall/firewall": {}
+    "ghcr.io/gus-costa/devcontainers/features/firewall:1": {}
   },
   "postStartCommand": "sudo -E /usr/local/bin/init-firewall.sh"
 }
