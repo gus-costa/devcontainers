@@ -102,30 +102,22 @@ checkExtension() {
 
 checkCommon()
 {
-    PACKAGE_LIST="apt-utils \
-        git \
-        openssh-client \
-        less \
-        iproute2 \
-        procps \
+    # Package list matches actual base image installation
+    # See: specs/base-template.md#installed-packages
+    PACKAGE_LIST="git \
+        vim \
         curl \
-        wget \
-        unzip \
-        nano \
-        jq \
-        lsb-release \
         ca-certificates \
-        apt-transport-https \
-        dialog \
-        gnupg2 \
-        libc6 \
-        libgcc1 \
-        libgssapi-krb5-2 \
-        liblttng-ust1 \
-        libstdc++6 \
-        zlib1g \
+        gnupg \
+        sudo \
+        less \
+        unzip \
+        jq \
+        man-db \
+        procps \
+        zsh \
         locales \
-        sudo"
+        tzdata"
 
     # Actual tests
     checkOSPackages "common-os-packages" ${PACKAGE_LIST}
@@ -134,8 +126,6 @@ checkCommon()
     check "sudo" sudo echo "sudo works."
     check "zsh" zsh --version
     check "oh-my-zsh" [ -d "$HOME/.oh-my-zsh" ]
-    check "login-shell-path" [ -f "/etc/profile.d/00-restore-env.sh" ]
-    check "code" which code
 }
 
 reportResults() {

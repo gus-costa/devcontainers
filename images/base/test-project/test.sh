@@ -1,29 +1,85 @@
 #!/bin/bash
+# Base Image Test Suite
+# Tests the base devcontainer image configuration
+# See: specs/base-template.md
+
 cd $(dirname "$0")
 
-source test-utils.sh vscode
+source test-utils.sh dev
 
-# Run common tests
+# =============================================================================
+# Test OS Packages
+# See: specs/base-template.md#installed-packages
+# =============================================================================
+
+# Run common package tests (includes essential tools, locale, shell)
 checkCommon
 
-check "git" git --version
-check "git-location" sh -c "which git | grep /usr/local/bin/git"
+# =============================================================================
+# Test Git Installation and Configuration
+# See: specs/base-template.md#installed-packages
+# =============================================================================
 
-git_version=$(git --version)
-check-version-ge "git-requirement" "${git_version}" "git version 2.40.1"
+check "git-installed" git --version
 
-check "set-git-config-user-name" sh -c "sudo git config --system user.name devcontainers"
-check "gitconfig-file-location" sh -c "ls /etc/gitconfig"
-check "gitconfig-contains-name" sh -c "cat /etc/gitconfig | grep 'name = devcontainers'"
+# Test git-delta installation and configuration
+# See: specs/base-template.md#git-enhancements
+check "git-delta-installed" delta --version
+check "git-delta-configured" sh -c "git config --system core.pager | grep delta"
+check "git-delta-side-by-side" sh -c "git config --system delta.side-by-side | grep true"
+check "git-delta-hyperlinks" sh -c "git config --system delta.hyperlinks | grep true"
 
-check "usr-local-etc-config-does-not-exist" test ! -f "/usr/local/etc/gitconfig"
+# =============================================================================
+# Test User Configuration
+# See: specs/base-template.md#user-configuration
+# =============================================================================
 
-cd /tmp && git clone https://github.com/devcontainers/feature-starter.git
-cd feature-starter
-check "perl" bash -c "git -c grep.patternType=perl grep -q 'a.+b'"
+check "dev-user-exists" id dev
+check "dev-user-uid" sh -c "id -u dev | grep 1000"
+check "dev-user-home" test -d /home/dev
+check "dev-user-shell" sh -c "getent passwd dev | grep /bin/zsh"
 
-check "Oh My Zsh! theme" test -e $HOME/.oh-my-zsh/custom/themes/devcontainers.zsh-theme
-check "zsh theme symlink" test -e $HOME/.oh-my-zsh/custom/themes/codespaces.zsh-theme
+# =============================================================================
+# Test Shell Configuration
+# See: specs/base-template.md#shell
+# =============================================================================
+
+check "zsh-installed" zsh --version
+check "oh-my-zsh-installed" test -d $HOME/.oh-my-zsh
+check "oh-my-zsh-git-plugin" test -d $HOME/.oh-my-zsh/plugins/git
+check "oh-my-zsh-fzf-plugin" test -d $HOME/.oh-my-zsh/plugins/fzf
+check "powerlevel10k-theme" test -f $HOME/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
+
+# Test fzf installation
+# See: specs/base-template.md#shell
+check "fzf-installed" fzf --version
+
+# =============================================================================
+# Test Environment Variables
+# See: specs/base-template.md#environment-variables
+# =============================================================================
+
+check "env-lang" sh -c "echo \$LANG | grep en_US.UTF-8"
+check "env-lc-all" sh -c "echo \$LC_ALL | grep en_US.UTF-8"
+check "env-language" sh -c "echo \$LANGUAGE | grep en_US:en"
+check "env-shell" sh -c "echo \$SHELL | grep /bin/zsh"
+check "env-devcontainer" sh -c "echo \$DEVCONTAINER | grep true"
+check "env-powerlevel9k" sh -c "echo \$POWERLEVEL9K_DISABLE_GITSTATUS | grep true"
+
+# =============================================================================
+# Test Command History Persistence
+# See: specs/base-template.md#volumes
+# =============================================================================
+
+check "commandhistory-dir" test -d /commandhistory
+check "commandhistory-writable" sh -c "touch /commandhistory/test && rm /commandhistory/test"
+
+# =============================================================================
+# Test Locale Configuration
+# See: specs/base-template.md#installed-packages
+# =============================================================================
+
+check "locale-en-us" locale -a | grep en_US.utf8
 
 # Report result
 reportResults

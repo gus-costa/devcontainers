@@ -10,7 +10,7 @@ This repository provides a base Dev Container template with optional features fo
 
 | Component | Location | Description |
 |-----------|----------|-------------|
-| Base template | `templates/base/` | General-purpose container with zsh, git-delta, proxy setup |
+| Base template | `images/base/` | General-purpose container with zsh, git-delta, proxy setup |
 | Squid proxy | `squid/` | Shared traffic filtering for all containers |
 | Features | `features/` | Optional: Node.js, Python, Puppeteer |
 
@@ -27,7 +27,7 @@ docker compose -f squid/docker-compose.yml up -d
 Copy the `.devcontainer` directory to your project:
 
 ```bash
-cp -r templates/base/.devcontainer /path/to/your/project/
+cp -r images/base/.devcontainer /path/to/your/project/
 ```
 
 Or reference the published template:
@@ -57,11 +57,11 @@ This prevents bypass via direct connections or tools that ignore proxy settings.
 
 ## Testing
 
-Test projects are located in `test/` to verify the templates and features work correctly:
+Test projects are located in `test/` and `images/base/test-project/` to verify the templates and features work correctly:
 
 | Test Project | Purpose |
 |--------------|---------|
-| `test/base/` | Tests base template (zsh, firewall, proxy) |
+| `images/base/test-project/` | Tests base template (zsh, git-delta, essential packages) |
 | `test/node/` | Tests Node.js feature (Node.js + npm through proxy) |
 | `test/python/` | Tests Python feature (Python + uv through proxy) |
 
