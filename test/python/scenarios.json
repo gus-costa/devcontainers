@@ -1,0 +1,10 @@
+{
+    "python": {
+        "image": "ghcr.com/gus-costa/base",
+        "features": {
+            "python": {
+                "version": "3.13"
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "firewall",
+  "version": "1.0.0",
+  "name": "Firewall",
+  "description": "",
+  "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/firewall",
+  "options": {},
+  "capAdd": [
+    "NET_ADMIN",
+    "NET_RAW"
+  ],
+  "containerEnv": {},
+
+  "installsAfter": [
+    "localhost:5000/python/python",
+    "localhost:5000/node/node",
+    "localhost:5000/claude/claude",
+    "localhost:5000/puppeteer/puppeteer",
+    "localhost:5000/github/github"
+  ]
+}

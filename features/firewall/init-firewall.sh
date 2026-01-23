@@ -26,8 +26,28 @@ echo "=== Initializing Firewall ==="
 # =============================================================================
 
 echo "Flushing existing iptables rules..."
-iptables -F OUTPUT
-iptables -F INPUT
+
+# 1. Extract Docker DNS info BEFORE any flushing
+DOCKER_DNS_RULES=$(iptables-save -t nat | grep "127\.0\.0\.11" || true)
+
+# 2. Flush all existing rules to start from a clean state.
+echo "Flushing all existing iptables rules..."
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+
+# 3. Selectively restore ONLY internal Docker DNS resolution
+if [ -n "$DOCKER_DNS_RULES" ]; then
+    echo "Restoring Docker DNS rules..."
+    iptables -t nat -N DOCKER_OUTPUT 2>/dev/null || true
+    iptables -t nat -N DOCKER_POSTROUTING 2>/dev/null || true
+    echo "$DOCKER_DNS_RULES" | xargs -L 1 iptables -t nat
+else
+    echo "No Docker DNS rules to restore"
+fi
 
 # =============================================================================
 # Step 2: Set Default Policy to DROP
@@ -35,7 +55,9 @@ iptables -F INPUT
 # =============================================================================
 
 echo "Setting default OUTPUT policy to DROP..."
-iptables -P OUTPUT DROP
+iptables -P INPUT   DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT  DROP
 
 # =============================================================================
 # Step 3: Allow Loopback Traffic
@@ -56,15 +78,6 @@ iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # =============================================================================
-# Step 5: Allow DNS Resolution
-# Required to resolve squid hostname
-# =============================================================================
-
-echo "Allowing DNS resolution..."
-iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
-iptables -A OUTPUT -p tcp --dport 53 -j ACCEPT
-
-# =============================================================================
 # Step 6: Resolve Squid IP and Allow Connections
 # Only traffic to Squid proxy is permitted
 # =============================================================================
@@ -82,6 +95,13 @@ fi
 echo "Squid IP: ${SQUID_IP}"
 echo "Allowing connections to Squid proxy..."
 iptables -A OUTPUT -p tcp -d ${SQUID_IP} --dport ${SQUID_PORT} -j ACCEPT
+
+# --- Wait for the proxy to be ready ---
+# echo "Waiting for squid-proxy to become available..."
+# while ! (</dev/tcp/squid-proxy/3128) &>/dev/null; do
+#   sleep 1 # wait for 1 second before checking again
+# done
+# echo "Proxy is ready."
 
 # =============================================================================
 # Step 7: Verify Firewall Configuration

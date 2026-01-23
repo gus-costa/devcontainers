@@ -1,0 +1,10 @@
+{
+    "autoUpdates": true,
+    "autoCompactEnabled": false,
+    "hasSeenTasksHint": true,
+    "autoConnectIde": true,
+    "hasSeenStashHint": true,
+    "hasCompletedOnboarding": true,
+    "lastOnboardingVersion": "0.2.25",
+    "projects": {}
+}

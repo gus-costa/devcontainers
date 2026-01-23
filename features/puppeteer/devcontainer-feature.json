@@ -1,5 +1,4 @@
 {
-    "$schema": "https://json.schemastore.org/devcontainer-feature.json",
     "id": "puppeteer",
     "version": "1.0.0",
     "name": "Puppeteer",
@@ -11,6 +10,6 @@
         "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/chromium"
     },
     "installsAfter": [
-        "ghcr.io/gus-costa/devcontainers/features/node"
+        "localhost:5000/node/node"
     ]
 }

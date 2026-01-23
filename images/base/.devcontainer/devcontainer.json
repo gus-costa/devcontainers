@@ -3,20 +3,20 @@
   // See: specs/base-template.md#devcontainerjson
 
   "name": "Base Development Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "TZ": "${localEnv:TZ:UTC}"
+    }
+  },
 
-  // Use Docker Compose for networking and capabilities
-  // See: specs/base-template.md#docker-compose
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "devcontainer",
-  "workspaceFolder": "/workspace",
+  "mounts": [
+    "source=devcontainer-bashhistory-${devcontainerId},target=/commandhistory,type=volume"
+  ],
 
   // Run as non-root user
   // See: specs/base-template.md#user-configuration
   "remoteUser": "dev",
-
-  // Initialize firewall after container starts
-  // See: specs/base-template.md#firewall-script
-  "postStartCommand": "sudo /home/dev/.devcontainer/init-firewall.sh",
 
   // Wait for firewall initialization before opening terminal
   // Ensures network isolation is active before any user commands
@@ -26,7 +26,16 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "zsh"
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+          },
+          "zsh": {
+            "path": "zsh"
+          }
+        }
       }
     }
   }

@@ -1,9 +1,8 @@
 {
-    "$schema": "https://json.schemastore.org/devcontainer-feature.json",
     "id": "node",
     "version": "1.0.0",
     "name": "Node.js",
-    "description": "Installs Node.js runtime with npm. Uses NodeSource binaries.",
+    "description": "Installs Node.js runtime with npm. Uses binaries.",
     "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/node",
     "options": {
         "version": {
@@ -12,6 +11,15 @@
             "description": "Node.js major version to install"
         }
     },
-    "containerEnv": {},
+    "mounts": [
+        {
+            "source": "devcontainer-nodemodules-${devcontainerId}",
+            "target": "${containerWorkspaceFolder}/node_modules",
+            "type": "volume"
+        }
+    ],
+    "containerEnv": {
+        "NODE_OPTIONS=--max-old-space-size":"2048"
+    },
     "installsAfter": []
 }

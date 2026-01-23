@@ -34,7 +34,20 @@ apt-get install -y --no-install-recommends \
 apt-get clean
 rm -rf /var/lib/apt/lists/*
 
+TMP_DIR=/tmp/puppeteer-install
+mkdir -p $TMP_DIR
+cd $TMP_DIR
+git clone --filter=blob:none --no-checkout https://github.com/modelcontextprotocol/servers-archived
+cd servers-archived
+git sparse-checkout set src/puppeteer tsconfig.json
+git checkout main
+cp -r src/puppeteer /home/${_REMOTE_USER}/puppeteer-mcp
+cp tsconfig.json /home/${_REMOTE_USER}/puppeteer-mcp/tsconfig-root.json
+chown -R ${_REMOTE_USER}:${_REMOTE_USER} /home/${_REMOTE_USER}/puppeteer-mcp
+cd /home/${_REMOTE_USER}/puppeteer-mcp
+rm -rf $TMP_DIR
+sed -i 's/..\/..\/tsconfig/.\/tsconfig-root/g' tsconfig.json
+npm install
+
 # Verify installation
-# Note: Environment variables PUPPETEER_SKIP_CHROMIUM_DOWNLOAD and
-# PUPPETEER_EXECUTABLE_PATH are set in devcontainer-feature.json
 echo "Chromium $(chromium --version) installed successfully"

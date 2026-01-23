@@ -9,9 +9,9 @@
 
 services:
   squid:
-    build: .
+    image: ubuntu/squid:latest
     container_name: devcontainer-squid
-    restart: unless-stopped
+    restart: no
     ports:
       - "3128:3128"
     volumes:

@@ -1,0 +1,10 @@
+{
+    "node": {
+        "image": "ghcr.com/gus-costa/base",
+        "features": {
+            "node": {
+                "version": "24"
+            }
+        }
+    }
+}

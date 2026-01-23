@@ -1,5 +1,4 @@
 {
-    "$schema": "https://json.schemastore.org/devcontainer-feature.json",
     "id": "python",
     "version": "1.0.0",
     "name": "Python",
@@ -12,8 +11,18 @@
             "description": "Python version to install (e.g., 3.11, 3.12)"
         }
     },
-    "containerEnv": {
-        "UV_SYSTEM_PYTHON": "1"
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.black-formatter",
+                "ms-python.python",
+                "ms-python.isort",
+                "ms-python.vscode-pylance",
+                "ms-python.debugpy",
+                "ms-python.vscode-python-envs"
+            ]
+        }
     },
+    "containerEnv": {},
     "installsAfter": []
 }

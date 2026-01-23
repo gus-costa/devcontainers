@@ -1,0 +1,54 @@
+{
+    "id": "claude",
+    "version": "1.0.0",
+    "name": "Claude",
+    "description": "",
+    "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/claude",
+    "options": {},
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "anthropic.claude-code"
+            ]
+        }
+    },
+    "mounts": [
+        {
+            "source": "claude-code-config",
+            "target": "/home/dev/.claude",
+            "type": "volume"
+        },
+        {
+            "source": "${localEnv:HOME}/.claude/CLAUDE.md",
+            "target": "/home/dev/.claude/CLAUDE.md",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}/.claude/agents",
+            "target": "/home/dev/.claude/agents",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}/.claude/commands",
+            "target": "/home/dev/.claude/commands",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}/.claude/hooks",
+            "target": "/home/dev/.claude/hooks",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}/.claude/settings.json",
+            "target": "/home/dev/.claude/settings.json",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}/.claude/devcontainer-data/.credentials.json",
+            "target": "/home/dev/.claude/.credentials.json",
+            "type": "bind"
+        }
+    ],
+    "containerEnv": {},
+    "installsAfter": []
+}

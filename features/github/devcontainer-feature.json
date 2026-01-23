@@ -1,0 +1,11 @@
+{
+    "id": "github",
+    "version": "1.0.0",
+    "name": "GitHub CLI",
+    "description": "",
+    "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/github",
+    "options": {},
+    "customizations": {},
+    "containerEnv": {},
+    "installsAfter": []
+}
