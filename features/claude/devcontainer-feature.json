@@ -2,7 +2,7 @@
     "id": "claude",
     "version": "1.0.0",
     "name": "Claude",
-    "description": "",
+    "description": "Installs Claude Code CLI and VS Code extension with persistent configuration mounts.",
     "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/claude",
     "options": {},
     "customizations": {

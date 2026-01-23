@@ -2,7 +2,7 @@
     "id": "github",
     "version": "1.0.0",
     "name": "GitHub CLI",
-    "description": "",
+    "description": "Installs GitHub CLI (gh) from official apt repository.",
     "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/github",
     "options": {},
     "customizations": {},

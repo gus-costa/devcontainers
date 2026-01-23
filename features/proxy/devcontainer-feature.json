@@ -2,7 +2,7 @@
   "id": "proxy",
   "version": "1.0.0",
   "name": "Proxy",
-  "description": "",
+  "description": "Routes all HTTP/HTTPS traffic through Squid proxy and initializes firewall at container start.",
   "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/proxy",
   "options": {},
   "containerEnv": {
@@ -16,8 +16,5 @@
   "dependsOn": {
     "localhost:5000/firewall/firewall": {}
   },
-
-  // Initialize firewall after container starts
-  // See: specs/base-template.md#firewall-script
   "postStartCommand": "sudo -E /usr/local/bin/init-firewall.sh"
 }

@@ -2,7 +2,7 @@
   "id": "firewall",
   "version": "1.0.0",
   "name": "Firewall",
-  "description": "",
+  "description": "Enforces network isolation with iptables, blocking direct connections except to proxy.",
   "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/firewall",
   "options": {},
   "capAdd": [
