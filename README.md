@@ -55,6 +55,25 @@ Traffic filtering uses two layers:
 
 This prevents bypass via direct connections or tools that ignore proxy settings.
 
+## Testing
+
+Test projects are located in `test/` to verify the templates and features work correctly:
+
+| Test Project | Purpose |
+|--------------|---------|
+| `test/base/` | Tests base template (zsh, firewall, proxy) |
+| `test/node/` | Tests Node.js feature (Node.js + npm through proxy) |
+| `test/python/` | Tests Python feature (Python + uv through proxy) |
+
+To test:
+
+1. Start Squid proxy: `docker compose -f squid/docker-compose.yml up -d`
+2. Open a test project in VS Code
+3. Use "Dev Containers: Reopen in Container"
+4. Verify the test scenarios described in each devcontainer.json
+
+See [specs/testing.md](./specs/testing.md) for firewall verification commands.
+
 ## Documentation
 
 See the [specs/](./specs/) directory for detailed technical specifications.

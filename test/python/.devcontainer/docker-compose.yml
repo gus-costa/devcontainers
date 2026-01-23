@@ -1,18 +1,16 @@
-# Docker Compose for Base Devcontainer
-# See: specs/base-template.md#docker-compose
+# Docker Compose for Python Feature Test
+# See: specs/testing.md
 #
-# Capabilities:
-#   - NET_ADMIN: Required for iptables firewall rules
-#   - NET_RAW: Required for iptables packet inspection
-#
-# Networks:
-#   - devcontainer-proxy: External network shared with Squid proxy
-#     Created by: docker compose -f squid/docker-compose.yml up -d
+# Test scenarios:
+#   - Python installs at specified version
+#   - uv works through proxy
 
 services:
   devcontainer:
     build:
-      context: .
+      # Build from the base template's Dockerfile
+      # See: specs/base-template.md
+      context: ../../../templates/base/.devcontainer
       dockerfile: Dockerfile
       args:
         TIMEZONE: ${TIMEZONE:-UTC}
@@ -35,9 +33,8 @@ services:
       # Bash/zsh history persistence
       - devcontainer-history:/home/dev/.local/share/history
 
-      # Optional: Claude config from host
-      # Uncomment to share Claude configuration
-      # - ${HOME}/.claude:/home/dev/.claude:cached
+      # Mount firewall script from base template
+      - ../../../templates/base/.devcontainer/init-firewall.sh:/home/dev/.devcontainer/init-firewall.sh:ro
 
     # Keep container running
     command: sleep infinity

@@ -1,0 +1,49 @@
+# Docker Compose for Node.js Feature Test
+# See: specs/testing.md
+#
+# Test scenarios:
+#   - Node.js installs at specified version
+#   - npm works through proxy
+
+services:
+  devcontainer:
+    build:
+      # Build from the base template's Dockerfile
+      # See: specs/base-template.md
+      context: ../../../templates/base/.devcontainer
+      dockerfile: Dockerfile
+      args:
+        TIMEZONE: ${TIMEZONE:-UTC}
+
+    # Required for iptables firewall
+    # See: specs/architecture.md#security-model
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+    # Connect to Squid proxy network
+    # See: specs/squid-proxy.md#network
+    networks:
+      - devcontainer-proxy
+
+    volumes:
+      # Workspace mount
+      - ..:/workspace:cached
+
+      # Bash/zsh history persistence
+      - devcontainer-history:/home/dev/.local/share/history
+
+      # Mount firewall script from base template
+      - ../../../templates/base/.devcontainer/init-firewall.sh:/home/dev/.devcontainer/init-firewall.sh:ro
+
+    # Keep container running
+    command: sleep infinity
+
+volumes:
+  devcontainer-history:
+
+networks:
+  # External network created by Squid
+  # See: specs/squid-proxy.md#network
+  devcontainer-proxy:
+    external: true
