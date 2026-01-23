@@ -1,47 +1,58 @@
 #!/bin/bash
-
-# This test file will be executed against an auto-generated devcontainer.json that
-# includes the 'hello' Feature with no options.
-#
-# For more information, see: https://github.com/devcontainers/cli/blob/main/docs/features/test.md
-#
-# Eg:
-# {
-#    "image": "<..some-base-image...>",
-#    "features": {
-#      "hello": {}
-#    },
-#    "remoteUser": "root"
-# }
-#
-# Thus, the value of all options will fall back to the default value in 
-# the Feature's 'devcontainer-feature.json'.
-# For the 'hello' feature, that means the default favorite greeting is 'hey'.
-#
-# These scripts are run as 'root' by default. Although that can be changed
-# with the '--remote-user' flag.
-# 
-# This test can be run with the following command:
-#
-#    devcontainer features test \ 
-#                   --features hello   \
-#                   --remote-user root \
-#                   --skip-scenarios   \
-#                   --base-image mcr.microsoft.com/devcontainers/base:ubuntu \
-#                   /path/to/this/repo
+# Python Feature Test Suite - Default Configuration
+# Tests the Python feature with default options (version 3.12)
+# See: specs/feature-python.md
 
 set -e
 
-# Optional: Import test library bundled with the devcontainer CLI
-# See https://github.com/devcontainers/cli/blob/HEAD/docs/features/test.md#dev-container-features-test-lib
+# Import test library bundled with the devcontainer CLI
 # Provides the 'check' and 'reportResults' commands.
 source dev-container-features-test-lib
 
-# Feature-specific tests
-# The 'check' command comes from the dev-container-features-test-lib. Syntax is...
-# check <LABEL> <cmd> [args...]
-# check "execute command" bash -c "hello | grep 'hey, $(whoami)!'"
+# =============================================================================
+# Test Python Installation
+# See: specs/feature-python.md#installation
+# =============================================================================
+
+check "python-installed" python --version
+check "python3-installed" python3 --version
+
+# Verify default version (3.12.x)
+# See: specs/feature-python.md#options
+PYTHON_VERSION=$(python --version)
+check "python-version-3.12" bash -c "echo $PYTHON_VERSION | grep '^Python 3\.12\.'"
+
+# =============================================================================
+# Test uv Package Manager
+# See: specs/feature-python.md#installation
+# =============================================================================
+
+# uv should be installed via official installer script
+check "uv-installed" which uv
+check "uv-executable" uv --version
+
+# =============================================================================
+# Test Python as Default
+# See: specs/feature-python.md#installation
+# =============================================================================
+
+# Verify that 'python' command points to the correct version
+# uv python install --default should set this up
+check "python-is-default" bash -c "which python"
+check "python-matches-python3" bash -c "python --version | grep -q '3\.12' && python3 --version | grep -q '3\.12'"
+
+# =============================================================================
+# Test uv Functionality
+# =============================================================================
+
+# Test that uv can list installed Python versions
+check "uv-python-list" uv python list
+
+# Verify the installed Python version is listed
+check "uv-python-installed" bash -c "uv python list | grep -q '3\.12'"
+
+# Test that uv can show Python information
+check "uv-python-find" uv python find
 
 # Report results
-# If any of the checks above exited with a non-zero exit code, the test will fail.
 reportResults
