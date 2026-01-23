@@ -67,6 +67,8 @@ Test projects are located in `test/` and `images/base/test-project/` to verify t
 | `test/puppeteer/` | Tests Puppeteer feature (Chromium, system dependencies, puppeteer-mcp) |
 | `test/claude/` | Tests Claude feature (CLI installation, configuration, mounts) |
 | `test/github/` | Tests GitHub CLI feature (gh CLI installation, repository configuration) |
+| `test/firewall/` | Tests Firewall feature (iptables, init script, sudoers configuration) |
+| `test/proxy/` | Tests Proxy feature (environment variables, firewall dependency) |
 
 To test:
 
