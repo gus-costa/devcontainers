@@ -4,14 +4,18 @@
 
 | Component | Registry Path |
 |-----------|---------------|
-| Base template | `ghcr.io/gus-costa/devcontainers/base` |
+| Base image | `ghcr.io/gus-costa/devcontainers/base` |
 | Node feature | `ghcr.io/gus-costa/devcontainers/features/node` |
 | Python feature | `ghcr.io/gus-costa/devcontainers/features/python` |
 | Puppeteer feature | `ghcr.io/gus-costa/devcontainers/features/puppeteer` |
+| Claude feature | `ghcr.io/gus-costa/devcontainers/features/claude` |
+| GitHub feature | `ghcr.io/gus-costa/devcontainers/features/github` |
+| Firewall feature | `ghcr.io/gus-costa/devcontainers/features/firewall` |
+| Proxy feature | `ghcr.io/gus-costa/devcontainers/features/proxy` |
 
 ## Versioning
 
-**Templates:** `major.minor`
+**Base image:** `major.minor`
 - Minor: non-breaking additions
 - Major: breaking changes
 
@@ -28,8 +32,8 @@ Uses the Dev Container CLI:
 ```bash
 npm install -g @devcontainers/cli
 
-# Publish template
-devcontainer templates publish ./templates --namespace gus-costa/devcontainers
+# Build and publish base image
+devcontainer build --workspace-folder images/base --push true --image-name gus-costa/devcontainers/base
 
 # Publish features
 devcontainer features publish ./features --namespace gus-costa/devcontainers/features

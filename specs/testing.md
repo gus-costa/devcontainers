@@ -2,43 +2,50 @@
 
 ## Location
 
-`test/`
+- Feature tests: `test/`
+- Base template tests: `images/base/test-project/`
 
 ## Structure
 
 ```
 test/
-├── base/
-│   └── .devcontainer/
-│       └── devcontainer.json
 ├── node/
-│   └── .devcontainer/
-│       └── devcontainer.json
+│   ├── node.sh
+│   ├── scenarios.json
+│   └── test.sh
 └── python/
-    └── .devcontainer/
-        └── devcontainer.json
+    ├── python.sh
+    ├── scenarios.json
+    └── test.sh
+
+images/base/test-project/
+├── test.sh
+└── test-utils.sh
 ```
 
 ## Test Scenarios
 
-### 1. Base Template
-- Container builds successfully
-- zsh is default shell with powerlevel10k
-- Proxy environment variables are set
-- Firewall blocks direct connections
-- Firewall allows proxy connections
+Tests use the devcontainer CLI test framework with `dev-container-features-test-lib`.
 
-### 2. Node Feature
-- Node.js installs at specified version
-- npm works through proxy
+### Base Template
 
-### 3. Python Feature
-- Python installs at specified version
-- uv works through proxy
+Test utilities in `images/base/test-project/`:
+- `test-utils.sh` - Common test functions (check, checkOSPackages, reportResults)
+- `test.sh` - Base image validation tests
 
-### 4. Puppeteer Feature
-- Chromium installs correctly
-- Can run headless browser
+### Node Feature
+
+Files in `test/node/`:
+- `test.sh` - Default feature tests (no options)
+- `node.sh` - Scenario-specific tests
+- `scenarios.json` - Version configuration tests (e.g., Node 24)
+
+### Python Feature
+
+Files in `test/python/`:
+- `test.sh` - Default feature tests (no options)
+- `python.sh` - Scenario-specific tests
+- `scenarios.json` - Version configuration tests (e.g., Python 3.13)
 
 ## Manual Testing Workflow
 

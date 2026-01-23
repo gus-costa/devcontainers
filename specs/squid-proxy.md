@@ -8,7 +8,6 @@
 
 ```
 squid/
-├── Dockerfile
 ├── docker-compose.yml
 └── squid.conf
 ```
@@ -55,6 +54,10 @@ The `squid.conf` uses ACLs (Access Control Lists):
 **Logging:**
 - Custom format with full URL, timestamps, status codes
 - Logs to `/var/log/squid/access.log`
+
+**Cache:**
+- Cache directory at `/var/spool/squid`
+- Persisted via Docker volume
 
 ## Volumes
 

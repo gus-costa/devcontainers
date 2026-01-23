@@ -20,12 +20,17 @@ None. Installs Chromium by default.
 
 1. Installs Chromium and system dependencies
 2. Sets environment variables for Puppeteer to use system Chromium
+3. Installs puppeteer-mcp (Model Context Protocol server for browser automation)
 
 **System dependencies:**
 - chromium
 - libnss3, libatk-bridge2.0-0, libdrm2, libxkbcommon0, libgbm1, libasound2
-- libxss1, libgtk2.0-0
+- libxss1, libgtk-3-0
 - Fonts: fonts-ipafont-gothic, fonts-wqy-zenhei, fonts-thai-tlwg, fonts-kacst, fonts-freefont-ttf
+
+## Puppeteer MCP
+
+Installs the puppeteer-mcp server at `/home/dev/puppeteer-mcp` for browser automation via the Model Context Protocol.
 
 ## Environment Variables
 

@@ -20,11 +20,20 @@ features/node/
 
 ## Installation
 
-Uses NodeSource or official Node.js binaries to install the specified version.
+Downloads official Node.js binaries from nodejs.org with GPG signature verification.
 
 Installs:
 - Node.js runtime
 - npm (bundled with Node.js)
+- `@antfu/ni` global package manager helper
+
+## Environment Variables
+
+- `NODE_OPTIONS=--max-old-space-size=2048` - Sets default heap size to 2GB
+
+## Volumes
+
+- `node_modules` - Mounted as a volume at workspace root for better performance
 
 ## Usage
 

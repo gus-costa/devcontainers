@@ -6,16 +6,15 @@ This repository provides a base Dev Container template with optional features fo
 
 ## Components
 
-### 1. Base Template (`templates/base/`)
+### 1. Base Image (`images/base/`)
 
-A general-purpose development container. Built locally when applied to projects.
+A general-purpose development container image published to ghcr.io.
 
 **Responsibilities:**
 - Common OS layer (Debian bookworm-slim)
 - Shell environment (zsh with powerlevel10k)
-- Essential tools (git, curl, git-delta, etc.)
-- Firewall enforcement (iptables)
-- Proxy environment configuration
+- Essential tools (git, curl, git-delta, fzf, etc.)
+- Non-root user configuration
 
 ### 2. Features (`features/`)
 
@@ -26,6 +25,10 @@ Installable capabilities that extend the base template.
 | `node` | Node.js runtime with npm |
 | `python` | Python runtime with uv |
 | `puppeteer` | Headless browser automation |
+| `claude` | Claude Code CLI and configuration |
+| `github` | GitHub CLI (gh) |
+| `firewall` | iptables firewall enforcement |
+| `proxy` | Proxy environment configuration |
 
 ### 3. Squid Proxy (`squid/`)
 
@@ -72,8 +75,6 @@ This prevents bypass via direct connections or tools that ignore proxy settings.
 
 | Component | Published To | Versioning |
 |-----------|--------------|------------|
-| Base template | `ghcr.io/gus-costa/devcontainers/base` | `major.minor` |
+| Base image | `ghcr.io/gus-costa/devcontainers/base` | `major.minor` |
 | Features | `ghcr.io/gus-costa/devcontainers/features/` | `major.minor.patch` |
 | Squid | Not published | N/A |
-
-Base image is built locally from the template's Dockerfile.

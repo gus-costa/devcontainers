@@ -20,10 +20,21 @@ features/python/
 
 ## Installation
 
-Installs Python from Debian repos or deadsnakes PPA, plus:
-- `uv` package manager via official installer
+Installs:
+- `uv` package manager via official installer script
+- Python runtime via `uv python install`
 
-Sets `UV_SYSTEM_PYTHON=1` to use system Python by default.
+The specified Python version is set as the default.
+
+## VS Code Extensions
+
+Automatically installs:
+- ms-python.black-formatter
+- ms-python.python
+- ms-python.isort
+- ms-python.vscode-pylance
+- ms-python.debugpy
+- ms-python.vscode-python-envs
 
 ## Usage
 
