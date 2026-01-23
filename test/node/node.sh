@@ -1,17 +1,50 @@
 #!/bin/bash
-
-# This test file will be executed against one of the scenarios devcontainer.json test that
-# includes the 'color' feature with "greeting": "hello" option.
+# Node.js Feature Test Suite - Version Scenario
+# Tests the Node.js feature with version option set to 24
+# See: specs/feature-node.md and test/node/scenarios.json
 
 set -e
 
-# Optional: Import test library bundled with the devcontainer CLI
+# Import test library bundled with the devcontainer CLI
 source dev-container-features-test-lib
 
-# Feature-specific tests
-# The 'check' command comes from the dev-container-features-test-lib.
-# check "execute command" bash -c "hello | grep 'hello, $(whoami)!'"
+# =============================================================================
+# Test Node.js Installation with Custom Version
+# See: specs/feature-node.md#options
+# =============================================================================
+
+check "node-installed" node --version
+check "npm-installed" npm --version
+
+# Verify specified version (24.x) - from scenarios.json
+NODE_VERSION=$(node --version)
+check "node-version-24" bash -c "echo $NODE_VERSION | grep '^v24\.'"
+
+# =============================================================================
+# Test @antfu/ni Global Package
+# See: specs/feature-node.md#installation
+# =============================================================================
+
+# ni should be installed globally regardless of Node version
+check "ni-installed" which ni
+check "ni-executable" ni --version
+
+# =============================================================================
+# Test Environment Variables
+# See: specs/feature-node.md#environment-variables
+# =============================================================================
+
+# NODE_OPTIONS should be set regardless of Node version
+check "node-options-set" bash -c "echo \$NODE_OPTIONS | grep -- '--max-old-space-size=2048'"
+
+# =============================================================================
+# Test node_modules Volume
+# See: specs/feature-node.md#volumes
+# =============================================================================
+
+# node_modules directory should exist and be writable
+check "node-modules-dir-exists" test -d /workspace/node_modules
+check "node-modules-writable" bash -c "touch /workspace/node_modules/.test && rm /workspace/node_modules/.test"
 
 # Report results
-# If any of the checks above exited with a non-zero exit code, the test will fail.
 reportResults

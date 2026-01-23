@@ -1,47 +1,69 @@
 #!/bin/bash
-
-# This test file will be executed against an auto-generated devcontainer.json that
-# includes the 'hello' Feature with no options.
-#
-# For more information, see: https://github.com/devcontainers/cli/blob/main/docs/features/test.md
-#
-# Eg:
-# {
-#    "image": "<..some-base-image...>",
-#    "features": {
-#      "hello": {}
-#    },
-#    "remoteUser": "root"
-# }
-#
-# Thus, the value of all options will fall back to the default value in 
-# the Feature's 'devcontainer-feature.json'.
-# For the 'hello' feature, that means the default favorite greeting is 'hey'.
-#
-# These scripts are run as 'root' by default. Although that can be changed
-# with the '--remote-user' flag.
-# 
-# This test can be run with the following command:
-#
-#    devcontainer features test \ 
-#                   --features hello   \
-#                   --remote-user root \
-#                   --skip-scenarios   \
-#                   --base-image mcr.microsoft.com/devcontainers/base:ubuntu \
-#                   /path/to/this/repo
+# Node.js Feature Test Suite - Default Configuration
+# Tests the Node.js feature with default options (version 22)
+# See: specs/feature-node.md
 
 set -e
 
-# Optional: Import test library bundled with the devcontainer CLI
-# See https://github.com/devcontainers/cli/blob/HEAD/docs/features/test.md#dev-container-features-test-lib
+# Import test library bundled with the devcontainer CLI
 # Provides the 'check' and 'reportResults' commands.
 source dev-container-features-test-lib
 
-# Feature-specific tests
-# The 'check' command comes from the dev-container-features-test-lib. Syntax is...
-# check <LABEL> <cmd> [args...]
-# check "execute command" bash -c "hello | grep 'hey, $(whoami)!'"
+# =============================================================================
+# Test Node.js Installation
+# See: specs/feature-node.md#installation
+# =============================================================================
+
+check "node-installed" node --version
+check "npm-installed" npm --version
+
+# Verify default version (22.x)
+# See: specs/feature-node.md#options
+NODE_VERSION=$(node --version)
+check "node-version-22" bash -c "echo $NODE_VERSION | grep '^v22\.'"
+
+# =============================================================================
+# Test @antfu/ni Global Package
+# See: specs/feature-node.md#installation
+# =============================================================================
+
+# ni should be installed globally
+check "ni-installed" which ni
+check "ni-executable" ni --version
+
+# Other ni commands should also be available
+check "nr-installed" which nr
+check "nu-installed" which nu
+check "nlx-installed" which nlx
+
+# =============================================================================
+# Test Environment Variables
+# See: specs/feature-node.md#environment-variables
+# =============================================================================
+
+# NODE_OPTIONS should be set to limit heap size
+check "node-options-set" bash -c "echo \$NODE_OPTIONS | grep -- '--max-old-space-size=2048'"
+
+# =============================================================================
+# Test node_modules Volume
+# See: specs/feature-node.md#volumes
+# =============================================================================
+
+# node_modules directory should exist at workspace root
+check "node-modules-dir-exists" test -d /workspace/node_modules
+
+# Verify node_modules is writable (important for npm install)
+check "node-modules-writable" bash -c "touch /workspace/node_modules/.test && rm /workspace/node_modules/.test"
+
+# =============================================================================
+# Test npm Functionality
+# =============================================================================
+
+# Test that npm can list global packages (verifies npm is working)
+check "npm-list-global" npm list -g --depth=0
+
+# Verify @antfu/ni is in global packages
+check "npm-ni-global" npm list -g @antfu/ni
 
 # Report results
-# If any of the checks above exited with a non-zero exit code, the test will fail.
 reportResults
