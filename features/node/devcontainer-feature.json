@@ -2,7 +2,7 @@
     "id": "node",
     "version": "1.0.0",
     "name": "Node.js",
-    "description": "Installs Node.js runtime with npm. Uses binaries.",
+    "description": "Installs Node.js runtime with npm using official binaries from nodejs.org.",
     "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/node",
     "options": {
         "version": {

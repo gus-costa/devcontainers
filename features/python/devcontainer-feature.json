@@ -2,7 +2,7 @@
     "id": "python",
     "version": "1.0.0",
     "name": "Python",
-    "description": "Installs Python runtime with uv package manager. Uses deadsnakes PPA for non-default versions.",
+    "description": "Installs Python runtime with uv package manager.",
     "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/python",
     "options": {
         "version": {
