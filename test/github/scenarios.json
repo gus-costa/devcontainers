@@ -1,0 +1,8 @@
+{
+    "github": {
+        "image": "ghcr.com/gus-costa/base",
+        "features": {
+            "github": {}
+        }
+    }
+}
