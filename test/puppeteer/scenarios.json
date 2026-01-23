@@ -1,0 +1,11 @@
+{
+    "puppeteer": {
+        "image": "ghcr.com/gus-costa/base",
+        "features": {
+            "node": {
+                "version": "22"
+            },
+            "puppeteer": {}
+        }
+    }
+}
