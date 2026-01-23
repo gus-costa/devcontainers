@@ -30,6 +30,34 @@
             "name": "Puppeteer",
             "description": "Installs Chromium and system dependencies for headless browser automation with Puppeteer.",
             "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/puppeteer"
+        },
+        {
+            "id": "claude",
+            "version": "1.0.0",
+            "name": "Claude",
+            "description": "Installs Claude Code CLI and VS Code extension with persistent configuration mounts.",
+            "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/claude"
+        },
+        {
+            "id": "github",
+            "version": "1.0.0",
+            "name": "GitHub CLI",
+            "description": "Installs GitHub CLI (gh) from official apt repository.",
+            "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/github"
+        },
+        {
+            "id": "firewall",
+            "version": "1.0.0",
+            "name": "Firewall",
+            "description": "Enforces network isolation with iptables, blocking direct connections except to proxy.",
+            "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/firewall"
+        },
+        {
+            "id": "proxy",
+            "version": "1.0.0",
+            "name": "Proxy",
+            "description": "Routes all HTTP/HTTPS traffic through Squid proxy and initializes firewall at container start.",
+            "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/proxy"
         }
     ]
 }
