@@ -30,12 +30,17 @@ Debian bookworm-slim
 - locales, tzdata
 
 **Shell:**
-- zsh with Oh My Zsh (via zsh-in-docker, powerlevel10k default theme)
-- Oh My Zsh plugins: git, fzf
+- zsh with `zsh-in-docker` for easy configuration of powerlevel10k and plugins.
+- Enabled plugins: `git`, `fzf`
 - fzf for fuzzy finding
 
 **Git enhancements:**
-- git-delta for better diffs (with side-by-side view and hyperlinks)
+- git-delta for better diffs with:
+  - Side-by-side view
+  - Navigation between diff sections
+  - Syntax highlighting with color-moved detection
+  - Clickable hyperlinks in VS Code format
+  - diff3 conflict style for easier merge conflict resolution
 
 ## User Configuration
 
@@ -61,8 +66,10 @@ Debian bookworm-slim
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `TIMEZONE` | `UTC` | Container timezone |
+| `TIMEZONE` | `UTC` | Container timezone (maps to `TZ` build arg in devcontainer.json) |
 | `FZF_VERSION` | `0.67.0` | fzf version to install |
+
+**Note**: The Dockerfile uses `TIMEZONE` as the arg name, but when using with devcontainer.json, pass it as `TZ` in the build args.
 
 ## Volumes
 

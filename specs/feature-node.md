@@ -20,20 +20,22 @@ features/node/
 
 ## Installation
 
-Downloads official Node.js binaries from nodejs.org with GPG signature verification.
+Requires `jq` to be installed for version parsing.
+
+Downloads official Node.js binaries from nodejs.org, verifying their integrity with GPG signatures from the official Node.js keyring.
 
 Installs:
 - Node.js runtime
 - npm (bundled with Node.js)
-- `@antfu/ni` global package manager helper
+- `@antfu/ni` global package manager helper for the non-root user (`dev`)
 
 ## Environment Variables
 
 - `NODE_OPTIONS=--max-old-space-size=2048` - Sets default heap size to 2GB
 
-## Volumes
+## Mounts
 
-- `node_modules` - Mounted as a volume at workspace root for better performance
+- A named volume is mounted at the container's workspace folder (`${containerWorkspaceFolder}/node_modules`) to persist `node_modules` and improve performance.
 
 ## Usage
 
@@ -59,4 +61,4 @@ Specific version:
 
 ## Proxy Considerations
 
-npm respects the `HTTP_PROXY` and `HTTPS_PROXY` environment variables set in the base template.
+npm respects the `HTTP_PROXY` and `HTTPS_PROXY` environment variables set by the proxy feature.

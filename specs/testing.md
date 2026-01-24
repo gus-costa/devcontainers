@@ -13,9 +13,25 @@ test/
 │   ├── node.sh
 │   ├── scenarios.json
 │   └── test.sh
-└── python/
-    ├── python.sh
-    ├── scenarios.json
+├── python/
+│   ├── python.sh
+│   ├── scenarios.json
+│   └── test.sh
+├── puppeteer/
+│   ├── puppeteer.sh
+│   ├── scenarios.json
+│   └── test.sh
+├── claude/
+│   ├── claude.sh
+│   ├── scenarios.json
+│   └── test.sh
+├── github/
+│   ├── github.sh
+│   ├── scenarios.json
+│   └── test.sh
+├── firewall/
+│   └── test.sh
+└── proxy/
     └── test.sh
 
 images/base/test-project/
@@ -46,6 +62,37 @@ Files in `test/python/`:
 - `test.sh` - Default feature tests (no options)
 - `python.sh` - Scenario-specific tests
 - `scenarios.json` - Version configuration tests (e.g., Python 3.13)
+
+### Puppeteer Feature
+
+Files in `test/puppeteer/`:
+- `test.sh` - Default feature tests (Chromium installation and dependencies)
+- `puppeteer.sh` - Scenario-specific tests
+- `scenarios.json` - Test configurations
+
+### Claude Feature
+
+Files in `test/claude/`:
+- `test.sh` - Default feature tests (CLI installation and configuration)
+- `claude.sh` - Scenario-specific tests
+- `scenarios.json` - Test configurations
+
+### GitHub Feature
+
+Files in `test/github/`:
+- `test.sh` - Default feature tests (CLI installation)
+- `github.sh` - Scenario-specific tests
+- `scenarios.json` - Test configurations
+
+### Firewall Feature
+
+Files in `test/firewall/`:
+- `test.sh` - Package installation and script configuration tests
+
+### Proxy Feature
+
+Files in `test/proxy/`:
+- `test.sh` - Environment variable configuration tests
 
 ## Manual Testing Workflow
 

@@ -60,4 +60,4 @@ Specific version:
 
 ## Proxy Considerations
 
-uv respects proxy environment variables set in the base template.
+uv respects proxy environment variables set by the proxy feature.

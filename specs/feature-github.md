@@ -16,6 +16,10 @@ features/github/
 
 None.
 
+## Container Environment
+
+None.
+
 ## Installation
 
 Installs the GitHub CLI (`gh`) from the official GitHub CLI apt repository:

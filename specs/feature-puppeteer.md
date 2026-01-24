@@ -57,4 +57,4 @@ Adds ~400MB for Chromium and dependencies.
 
 ## Proxy Considerations
 
-Puppeteer respects proxy environment variables set in the base template.
+Puppeteer respects proxy environment variables set by the proxy feature.

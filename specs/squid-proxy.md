@@ -22,6 +22,8 @@ Network traffic filtering for AI agent isolation. All devcontainer traffic route
 
 Created by Squid's compose file. Devcontainers join as external network.
 
+**Container image:** `ubuntu/squid:latest`
+
 **Container name:** `devcontainer-squid`
 
 **Port:** 3128
