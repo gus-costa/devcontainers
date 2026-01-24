@@ -9,12 +9,12 @@
 ```
 images/base/
 ├── .devcontainer/
-│   ├── devcontainer.json
-│   └── Dockerfile
-├── devcontainer-template.json
+│   ├── devcontainer.json    # Container configuration
+│   └── Dockerfile            # Image build definition
+├── devcontainer-template.json # Template metadata and options
 └── test-project/
-    ├── test.sh
-    └── test-utils.sh
+    ├── test.sh               # Test validation script
+    └── test-utils.sh         # Shared test utilities
 ```
 
 ## Base OS
@@ -100,7 +100,7 @@ Basic:
 With features:
 ```json
 {
-  "image": "ghcr.io/gus-costa/devcontainers/base:1.0",
+  "image": "ghcr.io/gus-costa/devcontainers/base:latest",
   "features": {
     "ghcr.io/gus-costa/devcontainers/features/node:1": {},
     "ghcr.io/gus-costa/devcontainers/features/puppeteer:1": {}

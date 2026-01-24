@@ -8,7 +8,11 @@ This repository provides a base Dev Container template with optional features fo
 
 ### 1. Base Image (`images/base/`)
 
-A general-purpose development container image published to ghcr.io.
+**Structure:**
+- `devcontainer-template.json` - Template definition with configurable options
+- `.devcontainer/Dockerfile` - Image build definition
+- `.devcontainer/devcontainer.json` - Container configuration
+- `test-project/` - Test suite for validation
 
 **Responsibilities:**
 - Common OS layer (Debian bookworm-slim)
@@ -73,8 +77,8 @@ This prevents bypass via direct connections or tools that ignore proxy settings.
 
 ## Publishing Strategy
 
-| Component | Published To | Versioning |
-|-----------|--------------|------------|
-| Base image | `ghcr.io/gus-costa/devcontainers/base` | `major.minor` |
-| Features | `ghcr.io/gus-costa/devcontainers/features/` | `major.minor.patch` |
-| Squid | Not published | N/A |
+| Component | Type | Published To | Versioning |
+|-----------|------|--------------|------------|
+| Base | Image | `ghcr.io/gus-costa/devcontainers/base` | `major.minor` |
+| Features | Features | `ghcr.io/gus-costa/devcontainers/features/` | `major.minor.patch` |
+| Squid | Service | Not published | N/A |
