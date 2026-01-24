@@ -1,0 +1,76 @@
+name: Build and push images
+
+on:
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+  # Publish base image to GHCR (specs/publishing.md)
+  publish-base:
+    name: Publish base image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Get tag name
+      run: echo "TAG=$(echo "${{ github.ref }}" | grep -oP 'refs/tags/\K(.+)')" >> $GITHUB_ENV
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install devcontainer CLI
+      run: npm install -g @devcontainers/cli
+
+    - name: Build and push base image
+      run: |
+        set -e
+        echo "Building and pushing base image with tag ${{ env.TAG }}"
+        # Build and push to ghcr.io/gus-costa/devcontainers/base as per specs/publishing.md
+        devcontainer build \
+          --workspace-folder images/base \
+          --image-name ghcr.io/gus-costa/devcontainers/base:${{ env.TAG }} \
+          --image-name ghcr.io/gus-costa/devcontainers/base:latest \
+          --push
+
+  # Publish features to GHCR (specs/publishing.md)
+  publish-features:
+    name: Publish features
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Get tag name
+      run: echo "TAG=$(echo "${{ github.ref }}" | grep -oP 'refs/tags/\K(.+)')" >> $GITHUB_ENV
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install devcontainer CLI
+      run: npm install -g @devcontainers/cli
+
+    - name: Publish features
+      run: |
+        set -e
+        echo "Publishing features with tag ${{ env.TAG }}"
+        # Publish all features to ghcr.io/gus-costa/devcontainers/features as per specs/publishing.md
+        devcontainer features publish \
+          --namespace gus-costa/devcontainers/features \
+          --registry ghcr.io \
+          ./features

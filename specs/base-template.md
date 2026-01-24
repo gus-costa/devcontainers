@@ -21,6 +21,12 @@ images/base/
 
 Debian bookworm-slim
 
+## Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `timezone` | string | `UTC` | Container timezone (e.g., America/New_York, Europe/London) |
+
 ## Installed Packages
 
 **Essential tools:**

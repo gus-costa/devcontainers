@@ -23,11 +23,51 @@
 
 ## Collection Metadata
 
-File `devcontainer-collection.json` at repo root declares all publishable components.
+File `devcontainer-collection.json` at repo root declares all publishable components with their current versions and descriptions.
 
-## Publishing Commands
+## GitHub Actions Workflows
 
-Uses the Dev Container CLI:
+### Release Pull Request (`release-pr.yml`)
+
+Triggered manually via workflow dispatch to create a release PR.
+
+**Process:**
+1. Installs `@devcontainers/cli`
+2. Runs `build/prepare-release.sh` to bump versions
+3. Creates a branch `rel/v{version}`
+4. Commits manifest updates
+5. Opens PR to main branch
+
+**Usage:**
+```bash
+# Trigger via GitHub UI with version input (e.g., v0.4.1)
+```
+
+### Build and Push (`push.yml`)
+
+Triggered on version tags (`v*`) pushed to main branch.
+
+**Process:**
+1. Uses matrix strategy for parallel builds
+2. Installs dependencies and `@devcontainers/cli`
+3. Builds and pushes images using `build/vscdc push` command
+4. Triggers version history extraction workflow
+
+### Test Base Image (`test-base.yml`)
+
+Runs on:
+- Pull requests affecting `images/base/**`
+- Pushes to main branch
+- Manual workflow dispatch
+
+**Process:**
+1. Uses custom `.github/actions/test-image` action
+2. Builds the base image
+3. Runs test suite from `images/base/test-project/`
+
+## Manual Publishing
+
+Use the Dev Container CLI:
 
 ```bash
 npm install -g @devcontainers/cli
