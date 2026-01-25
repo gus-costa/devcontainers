@@ -1,6 +1,6 @@
 {
     "github": {
-        "image": "ghcr.com/gus-costa/base",
+        "image": "ghcr.io/gus-costa/devcontainers/base",
         "features": {
             "github": {}
         }

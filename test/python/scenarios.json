@@ -1,6 +1,6 @@
 {
     "python": {
-        "image": "ghcr.com/gus-costa/base",
+        "image": "ghcr.io/gus-costa/devcontainers/base",
         "features": {
             "python": {
                 "version": "3.13"

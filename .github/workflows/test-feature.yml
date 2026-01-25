@@ -13,8 +13,13 @@ jobs:
     strategy:
       matrix:
         features:
-          - color
-          - hello
+          - node
+          - python
+          - puppeteer
+          - claude
+          - github
+          - firewall
+          - proxy
         baseImage:
           - debian:latest
           - ubuntu:latest
@@ -34,8 +39,13 @@ jobs:
     strategy:
       matrix:
         features:
-          - color
-          - hello
+          - node
+          - python
+          - puppeteer
+          - claude
+          - github
+          - firewall
+          - proxy
     steps:
       - uses: actions/checkout@v4
 
