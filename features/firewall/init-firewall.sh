@@ -12,10 +12,12 @@ set -e
 
 # =============================================================================
 # Configuration
+# Read from environment variables set by proxy feature, with defaults
+# See: specs/feature-proxy.md, specs/feature-firewall.md
 # =============================================================================
 
-SQUID_HOST="squid"
-SQUID_PORT="3128"
+SQUID_HOST="${SQUID_HOST:-squid}"
+SQUID_PORT="${SQUID_PORT:-3128}"
 TEST_DOMAIN="github.com"
 
 echo "=== Initializing Firewall ==="

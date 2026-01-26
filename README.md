@@ -121,6 +121,34 @@ Then use "Dev Containers: Reopen in Container".
 
 **Note:** The `firewall` and `proxy` features should always be used together for network isolation. The `proxy` feature automatically initializes the firewall at container start.
 
+## Proxy Configuration
+
+The proxy feature supports configurable proxy settings for different deployment scenarios:
+
+```json
+{
+  "image": "ghcr.io/gus-costa/devcontainers/base:1.0",
+  "features": {
+    "ghcr.io/gus-costa/devcontainers/features/firewall:1.0": {},
+    "ghcr.io/gus-costa/devcontainers/features/proxy:1.0": {
+      "proxyHost": "squid",
+      "proxyPort": "3128",
+      "noProxy": "localhost,127.0.0.1,.internal.example.com"
+    }
+  }
+}
+```
+
+**Configuration Options:**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `proxyHost` | `squid` | Hostname or IP address of the proxy server |
+| `proxyPort` | `3128` | Port number of the proxy server |
+| `noProxy` | `localhost,127.0.0.1` | Comma-separated list of domains that should bypass the proxy |
+
+These settings configure both the HTTP/HTTPS proxy environment variables and the firewall rules to allow traffic to the specified proxy.
+
 ## Security Model
 
 Network isolation is enforced through a two-layer architecture:
