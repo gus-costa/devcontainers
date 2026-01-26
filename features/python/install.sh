@@ -14,6 +14,7 @@ echo "Installing Python ${VERSION}..."
 # See: specs/feature-python.md#installation
 # Note: uv installer script fetches latest version; checksum verification not practical
 # as the script changes with each release. Using download-then-execute for visibility.
+# Note: Using 'su -' for login shell to ensure full environment initialization
 su - ${_REMOTE_USER} <<EOSU
 # Download installer to temporary file for inspection/execution
 curl -LsSf https://astral.sh/uv/install.sh -o /tmp/uv-install.sh

@@ -49,7 +49,8 @@ rm -rf $TMP_DIR
 sed -i 's/..\/..\/tsconfig/.\/tsconfig-root/g' tsconfig.json
 # Install npm dependencies as dev user to avoid permission issues
 # See: specs/feature-puppeteer.md#puppeteer-mcp
-su ${_REMOTE_USER} -c "cd /home/${_REMOTE_USER}/puppeteer-mcp && npm install"
+# Note: Using 'su -' for login shell to ensure full environment initialization
+su - ${_REMOTE_USER} -c "cd /home/${_REMOTE_USER}/puppeteer-mcp && npm install"
 
 # Verify installation
 echo "Chromium $(chromium --version) installed successfully"

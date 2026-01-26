@@ -23,6 +23,7 @@ chown ${_REMOTE_USER}:${_REMOTE_USER} /home/${_REMOTE_USER}/.claude.json
 # See: specs/feature-claude.md#installation
 # Note: Claude installer script fetches latest version; checksum verification not practical
 # as the script changes with each release. Using download-then-execute for visibility.
+# Note: Using 'su -' for login shell to ensure full environment initialization
 su - ${_REMOTE_USER} <<EOSU
 # Download installer to temporary file for inspection/execution
 curl -fsSL https://claude.ai/install.sh -o /tmp/claude-install.sh

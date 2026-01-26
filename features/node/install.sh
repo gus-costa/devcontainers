@@ -81,6 +81,8 @@ cp -r ./node/{lib,share,include,bin} /usr
 cd ..
 rm -rf node-install
 
+# Install @antfu/ni as dev user
+# Note: Using 'su -' for login shell to ensure full environment initialization
 su - ${_REMOTE_USER} -c "npm config set prefix ~/.local && npm install -g @antfu/ni"
 
 mkdir -p /workspace/node_modules
