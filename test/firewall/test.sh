@@ -80,5 +80,34 @@ check "sudoers-dev-user-entry" grep -q "^dev ALL=(root) SETENV: NOPASSWD: /usr/l
 # See: specs/feature-firewall.md#installation (passwordless sudo for firewall script only)
 check "sudoers-restricts-to-init-firewall" grep -q "/usr/local/bin/init-firewall.sh" /etc/sudoers.d/dev-firewall
 
+# =============================================================================
+# Test Runtime Firewall Behavior
+# See: specs/feature-firewall.md#verification
+# See: specs/testing.md#firewall-verification
+# =============================================================================
+
+# Note: These tests assume the firewall has been initialized via postStartCommand
+# from the proxy feature. See: specs/feature-proxy.md#post-start-command
+
+# Verify direct connections are blocked (firewall DROP policy)
+# See: specs/feature-firewall.md#verification (should fail - direct connection)
+# See: specs/testing.md#firewall-verification (should fail - direct connection)
+check "firewall-blocks-direct-connection" bash -c "! curl --noproxy '*' --connect-timeout 3 -s https://api.github.com/zen > /dev/null 2>&1"
+
+# Verify connections through proxy work for allowed domains
+# See: specs/feature-firewall.md#verification (should succeed - via proxy)
+# See: specs/testing.md#firewall-verification (should succeed - allowed domain via proxy)
+check "firewall-allows-proxy-connection" bash -c "curl --connect-timeout 10 -s https://api.github.com/zen > /dev/null 2>&1"
+
+# Verify blocked domains are rejected by Squid proxy
+# See: specs/testing.md#firewall-verification (should fail - blocked domain)
+# See: squid-proxy.md (example.com not in whitelisted_domains)
+check "proxy-blocks-non-whitelisted-domain" bash -c "! curl --connect-timeout 10 -s https://example.com > /dev/null 2>&1"
+
+# Verify firewall allows communication with Squid proxy only
+# See: specs/feature-firewall.md#firewall-initialization (step 7 - Allows Squid Proxy)
+# This test verifies iptables has a rule allowing traffic to squid on port 3128
+check "firewall-allows-squid-only" bash -c "iptables -L OUTPUT -n | grep -q 'tcp dpt:3128'"
+
 # Report results
 reportResults

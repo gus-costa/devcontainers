@@ -68,5 +68,43 @@ check "firewall-feature-installed" test -f /usr/local/bin/init-firewall.sh
 # See: specs/feature-proxy.md#dependencies
 check "iptables-available" which iptables
 
+# =============================================================================
+# Test Runtime Proxy Connectivity
+# See: specs/feature-proxy.md#purpose
+# See: specs/testing.md#firewall-verification
+# =============================================================================
+
+# Note: These tests verify that traffic is routed through the Squid proxy
+# and that the proxy correctly filters allowed vs blocked domains.
+# See: specs/feature-proxy.md#post-start-command
+
+# Verify HTTP requests go through proxy to allowed domains
+# See: specs/feature-proxy.md#purpose (route all HTTP/HTTPS traffic through Squid proxy)
+# See: specs/testing.md#firewall-verification (should succeed - allowed domain via proxy)
+check "proxy-allows-github-api" bash -c "curl --connect-timeout 10 -s https://api.github.com/zen > /dev/null 2>&1"
+
+# Verify proxy allows npm registry access
+# See: squid-proxy.md (registry.npmjs.org in whitelisted_domains)
+check "proxy-allows-npm-registry" bash -c "curl --connect-timeout 10 -s https://registry.npmjs.org > /dev/null 2>&1"
+
+# Verify proxy allows Python package index access
+# See: squid-proxy.md (pypi.org in whitelisted_domains)
+check "proxy-allows-pypi" bash -c "curl --connect-timeout 10 -s https://pypi.org > /dev/null 2>&1"
+
+# Verify proxy blocks non-whitelisted domains
+# See: squid-proxy.md (example.com not in whitelisted_domains)
+# See: specs/testing.md#firewall-verification (should fail - blocked domain)
+check "proxy-blocks-example-com" bash -c "! curl --connect-timeout 10 -s https://example.com > /dev/null 2>&1"
+
+# Verify direct connections are blocked (bypass prevention)
+# See: specs/feature-proxy.md#purpose (prevents bypass via direct connections)
+# See: specs/testing.md#firewall-verification (should fail - direct connection)
+check "proxy-prevents-bypass" bash -c "! curl --noproxy '*' --connect-timeout 3 -s https://api.github.com/zen > /dev/null 2>&1"
+
+# Verify localhost is excluded from proxy (NO_PROXY setting)
+# See: specs/feature-proxy.md#environment-variables (NO_PROXY: localhost,127.0.0.1)
+# This test verifies that requests to localhost don't go through the proxy
+check "proxy-excludes-localhost" bash -c "echo \$NO_PROXY | grep -q 'localhost'"
+
 # Report results
 reportResults
