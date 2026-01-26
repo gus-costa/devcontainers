@@ -5,6 +5,11 @@
 
 set -e
 
+# Error handler to provide context when installation fails
+# Displays feature name, failed line number, and command for easier debugging
+# See: specs/feature-node.md for installation details
+trap 'echo "Error: Node feature installation failed at line $LINENO: $BASH_COMMAND" >&2; exit 1' ERR
+
 # Function to get the latest Node.js version for a specific major or major.minor release
 # Usage: get_nodejs_version <major> or get_nodejs_version <major.minor>
 # Example: get_nodejs_version 20

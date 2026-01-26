@@ -5,6 +5,11 @@
 
 set -e
 
+# Error handler to provide context when installation fails
+# Displays feature name, failed line number, and command for easier debugging
+# See: specs/feature-puppeteer.md for installation details
+trap 'echo "Error: Puppeteer feature installation failed at line $LINENO: $BASH_COMMAND" >&2; exit 1' ERR
+
 echo "Installing Chromium and Puppeteer dependencies..."
 
 # Install Chromium and required system libraries

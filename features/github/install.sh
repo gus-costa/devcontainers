@@ -5,6 +5,11 @@
 
 set -e
 
+# Error handler to provide context when installation fails
+# Displays feature name, failed line number, and command for easier debugging
+# See: specs/feature-github.md for installation details
+trap 'echo "Error: GitHub feature installation failed at line $LINENO: $BASH_COMMAND" >&2; exit 1' ERR
+
 echo "Installing GitHub CLI..."
 
 # Add GitHub CLI GPG key

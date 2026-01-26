@@ -5,6 +5,11 @@
 
 set -e
 
+# Error handler to provide context when installation fails
+# Displays feature name, failed line number, and command for easier debugging
+# See: specs/feature-python.md for installation details
+trap 'echo "Error: Python feature installation failed at line $LINENO: $BASH_COMMAND" >&2; exit 1' ERR
+
 # Feature option: Python version (default: 3.12)
 VERSION="${VERSION:-3.12}"
 

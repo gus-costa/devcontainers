@@ -6,6 +6,11 @@
 
 set -e
 
+# Error handler to provide context when installation fails
+# Displays feature name, failed line number, and command for easier debugging
+# See: specs/feature-proxy.md for installation details
+trap 'echo "Error: Proxy feature installation failed at line $LINENO: $BASH_COMMAND" >&2; exit 1' ERR
+
 # =============================================================================
 # Read Configuration Options
 # Options are provided as uppercase environment variables by devcontainer CLI
