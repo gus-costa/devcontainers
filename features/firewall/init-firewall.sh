@@ -16,8 +16,8 @@ set -e
 # See: specs/feature-proxy.md, specs/feature-firewall.md
 # =============================================================================
 
-SQUID_HOST="${SQUID_HOST:-squid}"
-SQUID_PORT="${SQUID_PORT:-3128}"
+SQUID_HOST="${PROXY_HOST:-squid}"
+SQUID_PORT="${PROXY_PORT:-3128}"
 TEST_DOMAIN="github.com"
 
 echo "=== Initializing Firewall ==="

@@ -4,25 +4,18 @@
   "name": "Proxy",
   "description": "Routes all HTTP/HTTPS traffic through Squid proxy and initializes firewall at container start.",
   "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/proxy",
-  "options": {
-    "proxyHost": {
-      "type": "string",
-      "default": "squid",
-      "description": "Hostname or IP address of the proxy server"
-    },
-    "proxyPort": {
-      "type": "string",
-      "default": "3128",
-      "description": "Port number of the proxy server"
-    },
-    "noProxy": {
-      "type": "string",
-      "default": "localhost,127.0.0.1",
-      "description": "Comma-separated list of domains that should bypass the proxy"
-    }
+  "containerEnv": {
+    "PROXY_HOST": "squid",
+    "PROXY_PORT": "3128",
+    "HTTP_PROXY": "http://${PROXY_HOST}:${PROXY_PORT}",
+    "http_proxy": "http://${PROXY_HOST}:${PROXY_PORT}",
+    "HTTPS_PROXY": "http://${PROXY_HOST}:${PROXY_PORT}",
+    "https_proxy": "http://${PROXY_HOST}:${PROXY_PORT}",
+    "NO_PROXY": "localhost,127.0.0.1",
+    "no_proxy": "${NO_PROXY}"
   },
   "dependsOn": {
-    "ghcr.io/gus-costa/devcontainers/features/firewall:1": {}
+    "localhost:5000/firewall/firewall:1": {}
   },
   "postStartCommand": "sudo -E /usr/local/bin/init-firewall.sh"
 }

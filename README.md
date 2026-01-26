@@ -46,7 +46,40 @@ Copy the `.devcontainer` directory to your project:
 cp -r images/base/.devcontainer /path/to/your/project/
 ```
 
-**Option B: Published Template (after publishing to GHCR)**
+**Option B: Run your own OCI server locally**
+
+Run zot using docker:
+
+```bash
+docker run --rm -d -p 5000:5000 --name oras-quickstart ghcr.io/project-zot/zot-linux-amd64:latest
+```
+
+Build and publish the image:
+
+```bash
+devcontainer build --workspace-folder images/base --push true --image-name localhost:5000/base:1.0.0
+```
+
+Add `.devcontainer/devcontainer.json` to your project referencing the image:
+
+```json
+{
+	"name": "Test",
+	"image": "localhost:5000/base:1.0.0",
+	"features": {
+		"localhost:5000/python/python:latest": {
+			"version": "3.13"
+		},
+	},
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
+	"workspaceFolder": "/workspace",
+	"runArgs": [
+		"--network=devcontainer-proxy"
+	]
+}
+```
+
+**Option C: Published Template (after publishing to GHCR)**
 
 Reference the published image in your `.devcontainer/devcontainer.json`:
 
@@ -130,22 +163,23 @@ The proxy feature supports configurable proxy settings for different deployment 
   "image": "ghcr.io/gus-costa/devcontainers/base:1.0",
   "features": {
     "ghcr.io/gus-costa/devcontainers/features/firewall:1.0": {},
-    "ghcr.io/gus-costa/devcontainers/features/proxy:1.0": {
-      "proxyHost": "squid",
-      "proxyPort": "3128",
-      "noProxy": "localhost,127.0.0.1,.internal.example.com"
-    }
+    "ghcr.io/gus-costa/devcontainers/features/proxy:1.0": {}
+  },
+  "containerEnv": {
+    "PROXY_HOST": "squid",
+    "PROXY_PORT": "3128",
+    "NO_PROXY": "localhost,127.0.0.1,.internal.example.com"
   }
 }
 ```
 
-**Configuration Options:**
+**Environment Varialbes:**
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `proxyHost` | `squid` | Hostname or IP address of the proxy server |
-| `proxyPort` | `3128` | Port number of the proxy server |
-| `noProxy` | `localhost,127.0.0.1` | Comma-separated list of domains that should bypass the proxy |
+| `PROXY_HOST` | `squid` | Hostname or IP address of the proxy server |
+| `PROXY_PORT` | `3128` | Port number of the proxy server |
+| `NO_PROXY` | `localhost,127.0.0.1` | Comma-separated list of domains that should bypass the proxy |
 
 These settings configure both the HTTP/HTTPS proxy environment variables and the firewall rules to allow traffic to the specified proxy.
 
