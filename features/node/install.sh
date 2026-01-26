@@ -70,9 +70,11 @@ FILENAME=node-v${SEMVER}-linux-x64.tar.gz
 
 echo "Installing Node.js ${SEMVER}..."
 
-# Ensure dependencies are installed
-mkdir -p /tmp/node-install
-cd /tmp/node-install
+# Create temporary directory for installation files
+# See: specs/feature-node.md#installation
+TMP_DIR=/tmp/node-install
+mkdir -p $TMP_DIR
+cd $TMP_DIR
 curl -fsO "https://nodejs.org/download/release/v${SEMVER}/${FILENAME}"
 curl -fsLo "nodejs-keyring.kbx" "https://github.com/nodejs/release-keys/raw/HEAD/gpg/pubring.kbx"
 curl -fsO "https://nodejs.org/dist/v${SEMVER}/SHASUMS256.txt.asc" \
@@ -82,9 +84,10 @@ mkdir node
 tar -xf $FILENAME -C ./node --strip-components 1
 cp -r ./node/{lib,share,include,bin} /usr
 
-# Clean up
-cd ..
-rm -rf node-install
+# Clean up temporary directory
+# See: specs/feature-node.md#installation
+cd /
+rm -rf $TMP_DIR
 
 # Install @antfu/ni as dev user
 # Note: Using 'su -' for login shell to ensure full environment initialization
