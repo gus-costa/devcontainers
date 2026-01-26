@@ -13,6 +13,7 @@ FROM debian:bookworm-slim
 
 ARG TIMEZONE=UTC
 ARG FZF_VERSION=0.67.0
+ARG DELTA_VERSION=0.18.2
 
 # Locale configuration
 ENV LANG=en_US.UTF-8 \
@@ -101,8 +102,8 @@ ENV SHELL=/bin/zsh
 # Install git-delta for better diffs with checksum verification
 # See: specs/base-template.md#git-enhancements
 # Checksums calculated from official releases at https://github.com/dandavison/delta/releases/tag/0.18.2
+# DELTA_VERSION can be overridden via build args (default: 0.18.2)
 RUN ARCH=$(dpkg --print-architecture) && \
-    DELTA_VERSION="0.18.2" && \
     if [ "$ARCH" = "amd64" ]; then \
       DELTA_SHA256="1658c7b61825d411b50734f34016101309e4b6e7f5799944cf8e4ac542cebd7f"; \
     elif [ "$ARCH" = "arm64" ]; then \
