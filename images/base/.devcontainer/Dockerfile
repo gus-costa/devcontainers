@@ -74,8 +74,19 @@ RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhisto
   && touch /commandhistory/.bash_history \
   && chown -R dev:dev /commandhistory
 
-# Install fzf for fuzzy finding
-RUN curl -fsLo /tmp/fzf.tar.gz "https://github.com/junegunn/fzf/releases/download/v${FZF_VERSION}/fzf-${FZF_VERSION}-linux_amd64.tar.gz" && \
+# Install fzf for fuzzy finding with checksum verification
+# See: specs/base-template.md#installed-packages
+# Checksums from https://github.com/junegunn/fzf/releases/download/v0.67.0/fzf_0.67.0_checksums.txt
+RUN ARCH=$(dpkg --print-architecture) && \
+    if [ "$ARCH" = "amd64" ]; then \
+      FZF_SHA256="4be08018ca37b32518c608741933ea335a406de3558242b60619e98f25be2be1"; \
+    elif [ "$ARCH" = "arm64" ]; then \
+      FZF_SHA256="7071f48c2ac0f2bc992d6d33cc36fd675a579a98cc976dda699eea07dd5e9c58"; \
+    else \
+      echo "Unsupported architecture: $ARCH" && exit 1; \
+    fi && \
+    curl -fsLo /tmp/fzf.tar.gz "https://github.com/junegunn/fzf/releases/download/v${FZF_VERSION}/fzf-${FZF_VERSION}-linux_${ARCH}.tar.gz" && \
+    echo "${FZF_SHA256}  /tmp/fzf.tar.gz" | sha256sum -c - && \
     tar -xf /tmp/fzf.tar.gz -C /usr/bin && \
     rm /tmp/fzf.tar.gz
 
@@ -87,10 +98,20 @@ ENV SHELL=/bin/zsh
 # See: specs/base-template.md#git-enhancements
 # =============================================================================
 
-# Install git-delta for better diffs
+# Install git-delta for better diffs with checksum verification
+# See: specs/base-template.md#git-enhancements
+# Checksums calculated from official releases at https://github.com/dandavison/delta/releases/tag/0.18.2
 RUN ARCH=$(dpkg --print-architecture) && \
     DELTA_VERSION="0.18.2" && \
+    if [ "$ARCH" = "amd64" ]; then \
+      DELTA_SHA256="1658c7b61825d411b50734f34016101309e4b6e7f5799944cf8e4ac542cebd7f"; \
+    elif [ "$ARCH" = "arm64" ]; then \
+      DELTA_SHA256="937781aa7788e1510858743fff6c9a8b4a69fe0a22a7c8a69493e633227939a9"; \
+    else \
+      echo "Unsupported architecture: $ARCH" && exit 1; \
+    fi && \
     curl -fsSL "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/git-delta_${DELTA_VERSION}_${ARCH}.deb" -o /tmp/git-delta.deb && \
+    echo "${DELTA_SHA256}  /tmp/git-delta.deb" | sha256sum -c - && \
     dpkg -i /tmp/git-delta.deb && \
     rm /tmp/git-delta.deb
 
@@ -109,12 +130,18 @@ USER dev
 
 ENV POWERLEVEL9K_DISABLE_GITSTATUS=true
 
-# Install zsh-in-docker for powerlevel and plugins
-RUN sh -c "$(curl -fsSL https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh)" -- \
-    -p git \
-    -p fzf \
-    -a "export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.zsh_history" \
-    -x
+# Install zsh-in-docker for powerlevel and plugins with checksum verification
+# See: specs/base-template.md#shell
+# Checksum calculated from official release at https://github.com/deluan/zsh-in-docker/releases/tag/v1.2.0
+RUN ZSH_IN_DOCKER_SHA256="f74e5b08c295b6c3886654bb63c688e5ea16c58a4209435c4ddbab2c42fe9b41" && \
+    curl -fsSL https://github.com/deluan/zsh-in-docker/releases/download/v1.2.0/zsh-in-docker.sh -o /tmp/zsh-in-docker.sh && \
+    echo "${ZSH_IN_DOCKER_SHA256}  /tmp/zsh-in-docker.sh" | sha256sum -c - && \
+    sh /tmp/zsh-in-docker.sh \
+      -p git \
+      -p fzf \
+      -a "export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.zsh_history" \
+      -x && \
+    rm /tmp/zsh-in-docker.sh
 
 # =============================================================================
 # Final Setup

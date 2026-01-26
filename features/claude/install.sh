@@ -19,8 +19,17 @@ cp claude-init-config.json /home/${_REMOTE_USER}/.claude.json
 chown -R ${_REMOTE_USER}:${_REMOTE_USER} /home/${_REMOTE_USER}/.claude
 chown ${_REMOTE_USER}:${_REMOTE_USER} /home/${_REMOTE_USER}/.claude.json
 
-# Install Claude Code CLI via official installer
+# Install Claude Code CLI via official installer (download-then-execute pattern)
 # See: specs/feature-claude.md#installation
+# Note: Claude installer script fetches latest version; checksum verification not practical
+# as the script changes with each release. Using download-then-execute for visibility.
 su - ${_REMOTE_USER} <<EOSU
-curl -fsSL https://claude.ai/install.sh | bash
+# Download installer to temporary file for inspection/execution
+curl -fsSL https://claude.ai/install.sh -o /tmp/claude-install.sh
+
+# Execute the downloaded installer
+bash /tmp/claude-install.sh
+
+# Clean up installer
+rm /tmp/claude-install.sh
 EOSU
