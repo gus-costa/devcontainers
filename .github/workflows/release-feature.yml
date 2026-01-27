@@ -18,7 +18,7 @@ jobs:
         with:
           publish-features: "true"
           base-path-to-features: "./features/src"
-          namespace: "gus-costa/devcontainers/features"
+          features-namespace: "gus-costa/devcontainers/features"
           generate-docs: "true"
           
         env:
