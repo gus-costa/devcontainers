@@ -11,7 +11,7 @@
   },
 
   "mounts": [
-    "source=devcontainer-bashhistory-${devcontainerId},target=/commandhistory,type=volume"
+    "source=devcontainer-bashhistory-${devcontainerId},target=/home/dev/.local/share/history,type=volume"
   ],
 
   // Run as non-root user

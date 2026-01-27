@@ -79,7 +79,7 @@ Debian bookworm-slim
 
 ## Volumes
 
-- Shell history persistence (`/commandhistory`) - stores both bash and zsh history
+- Shell history persistence (`/home/dev/.local/share/history`) - stores both bash and zsh history
 
 ## devcontainer.json
 

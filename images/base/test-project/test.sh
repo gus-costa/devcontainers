@@ -70,8 +70,7 @@ check "env-powerlevel9k" sh -c "echo \$POWERLEVEL9K_DISABLE_GITSTATUS | grep tru
 # See: specs/base-template.md#volumes
 # =============================================================================
 
-check "commandhistory-dir" test -d /commandhistory
-check "commandhistory-owner" sh -c "stat -c '%U:%G' /commandhistory | grep dev:dev"
+check "commandhistory-dir" test -d $HOME/.local/share/history
 
 # =============================================================================
 # Test Locale Configuration

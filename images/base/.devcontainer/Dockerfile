@@ -70,10 +70,9 @@ RUN useradd -m -s /bin/zsh -u 1000 dev && \
 # =============================================================================
 
 # Persist bash history.
-RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
-  && mkdir /commandhistory \
-  && touch /commandhistory/.bash_history \
-  && chown -R dev:dev /commandhistory
+RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/home/dev/.local/share/history/.bash_history" \
+  && mkdir /home/dev/.local/share/history \
+  && touch /home/dev/.local/share/history/.bash_history
 
 # Install fzf for fuzzy finding with checksum verification
 # See: specs/base-template.md#installed-packages
@@ -140,7 +139,7 @@ RUN ZSH_IN_DOCKER_SHA256="f74e5b08c295b6c3886654bb63c688e5ea16c58a4209435c4ddbab
     sh /tmp/zsh-in-docker.sh \
       -p git \
       -p fzf \
-      -a "export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.zsh_history" \
+      -a "export PROMPT_COMMAND='history -a' && export HISTFILE=/home/dev/.local/share/history/.zsh_history" \
       -x && \
     rm /tmp/zsh-in-docker.sh
 
