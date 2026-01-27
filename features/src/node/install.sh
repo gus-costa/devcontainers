@@ -10,6 +10,39 @@ set -e
 # See: specs/feature-node.md for installation details
 trap 'echo "Error: Node feature installation failed at line $LINENO: $BASH_COMMAND" >&2; exit 1' ERR
 
+# Install required dependencies if not already present
+PACKAGES_TO_INSTALL=()
+
+if ! command -v curl &> /dev/null; then
+    PACKAGES_TO_INSTALL+=(curl)
+fi
+
+if ! command -v jq &> /dev/null; then
+    PACKAGES_TO_INSTALL+=(jq)
+fi
+
+if ! command -v gpgv &> /dev/null; then
+    PACKAGES_TO_INSTALL+=(gnupg)
+fi
+
+if ! command -v shasum &> /dev/null; then
+    PACKAGES_TO_INSTALL+=(perl)
+fi
+
+# ca-certificates is harder to check, but we can check if the cert directory exists
+if [ ! -d "/etc/ssl/certs" ] || [ -z "$(ls -A /etc/ssl/certs)" ]; then
+    PACKAGES_TO_INSTALL+=(ca-certificates)
+fi
+
+# Only run apt-get if we have packages to install
+if [ ${#PACKAGES_TO_INSTALL[@]} -gt 0 ]; then
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y --no-install-recommends "${PACKAGES_TO_INSTALL[@]}"
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+fi
+
 # Function to get the latest Node.js version for a specific major or major.minor release
 # Usage: get_nodejs_version <major> or get_nodejs_version <major.minor>
 # Example: get_nodejs_version 20
