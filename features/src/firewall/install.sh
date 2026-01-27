@@ -14,6 +14,7 @@ apt-get update
 # Install networking and firewall packages for traffic isolation
 # See: specs/feature-firewall.md#installation
 apt-get install -y --no-install-recommends \
+    sudo \
     iptables \
     ipset \
     iproute2 \
