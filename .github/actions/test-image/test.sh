@@ -11,7 +11,7 @@ set -e
 echo "(*) Running test..."
 id_label="test-container=${IMAGE}"
 id_image="${IMAGE}-test-image"
-devcontainer exec --workspace-folder $(pwd)/images/$IMAGE  --id-label ${id_label} /bin/sh -c 'set -e && if [ -f "test-project/test.sh" ]; then cd test-project && if [ "$(id -u)" = "0" ]; then chmod +x test.sh; else sudo chmod +x test.sh; fi && ./test.sh; else ls -a; fi'
+devcontainer exec --workspace-folder $(pwd)/images/$IMAGE  --id-label ${id_label} /bin/sh -c 'set -e && if [ -f "test-project/test.sh" ]; then cd test-project && ./test.sh; else ls -a; fi'
 
 echo "(*) Docker image details..."
 docker images

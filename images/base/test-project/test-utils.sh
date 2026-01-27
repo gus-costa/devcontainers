@@ -123,7 +123,6 @@ checkCommon()
     checkOSPackages "common-os-packages" ${PACKAGE_LIST}
     check "non-root-user" id ${USERNAME}
     check "locale" [ $(locale -a | grep en_US.utf8) ]
-    check "sudo" sudo echo "sudo works."
     check "zsh" zsh --version
     check "oh-my-zsh" [ -d "$HOME/.oh-my-zsh" ]
 }
