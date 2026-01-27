@@ -28,5 +28,6 @@ chmod +x /usr/local/bin/init-firewall.sh
 
 # Configure passwordless sudo for firewall script only
 # See: specs/feature-firewall.md#installation
-echo "dev ALL=(root) SETENV: NOPASSWD: /usr/local/bin/init-firewall.sh" >> /etc/sudoers.d/dev-firewall
-chmod 0440 /etc/sudoers.d/dev-firewall
+mkdir -p /etc/sudoers.d
+echo "${_REMOTE_USER} ALL=(root) SETENV: NOPASSWD: /usr/local/bin/init-firewall.sh" >> /etc/sudoers.d/${_REMOTE_USER}-firewall
+chmod 0440 /etc/sudoers.d/${_REMOTE_USER}-firewall

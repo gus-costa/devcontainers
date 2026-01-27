@@ -66,19 +66,19 @@ check "init-firewall-script-has-squid-config" grep -q "SQUID_HOST" /usr/local/bi
 
 # Verify sudoers file exists for dev user
 # See: specs/feature-firewall.md#installation
-check "sudoers-file-exists" test -f /etc/sudoers.d/dev-firewall
+check "sudoers-file-exists" test -f /etc/sudoers.d/$(whoami)-firewall
 
 # Verify sudoers file has correct permissions (0440)
 # See: specs/feature-firewall.md#installation
-check "sudoers-file-permissions" bash -c "stat -c '%a' /etc/sudoers.d/dev-firewall | grep -q '^440$'"
+check "sudoers-file-permissions" bash -c "stat -c '%a' /etc/sudoers.d/$(whoami)-firewall | grep -q '^440$'"
 
 # Verify sudoers file contains dev user entry
 # See: specs/feature-firewall.md#installation
-check "sudoers-dev-user-entry" grep -q "^dev ALL=(root) SETENV: NOPASSWD: /usr/local/bin/init-firewall.sh" /etc/sudoers.d/dev-firewall
+check "sudoers-dev-user-entry" grep -q "^$(whoami) ALL=(root) SETENV: NOPASSWD: /usr/local/bin/init-firewall.sh" /etc/sudoers.d/$(whoami)-firewall
 
 # Verify sudoers file allows init-firewall.sh script only
 # See: specs/feature-firewall.md#installation (passwordless sudo for firewall script only)
-check "sudoers-restricts-to-init-firewall" grep -q "/usr/local/bin/init-firewall.sh" /etc/sudoers.d/dev-firewall
+check "sudoers-restricts-to-init-firewall" grep -q "/usr/local/bin/init-firewall.sh" /etc/sudoers.d/$(whoami)-firewall
 
 # =============================================================================
 # Test Runtime Firewall Behavior
