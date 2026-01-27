@@ -10,19 +10,46 @@ set -e
 # See: specs/feature-claude.md for installation details
 trap 'echo "Error: Claude feature installation failed at line $LINENO: $BASH_COMMAND" >&2; exit 1' ERR
 
+# Install required dependencies if not already present
+PACKAGES_TO_INSTALL=()
+
+if ! command -v curl &> /dev/null; then
+    PACKAGES_TO_INSTALL+=(curl)
+fi
+
+# ca-certificates is harder to check, but we can check if the cert directory exists
+if [ ! -d "/etc/ssl/certs" ] || [ -z "$(ls -A /etc/ssl/certs)" ]; then
+    PACKAGES_TO_INSTALL+=(ca-certificates)
+fi
+
+# Only run apt-get if we have packages to install
+if [ ${#PACKAGES_TO_INSTALL[@]} -gt 0 ]; then
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y --no-install-recommends "${PACKAGES_TO_INSTALL[@]}"
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+fi
+
 echo "Installing Claude Code..."
+
+TARGET_HOME=/home/${_REMOTE_USER}
+
+if [ "${_REMOTE_USER}" = "root" ]; then
+    TARGET_HOME=/root
+fi
 
 # Create .claude directory structure first
 # See: specs/feature-claude.md#installation
-mkdir -p /home/${_REMOTE_USER}/.claude
+mkdir -p ${TARGET_HOME}/.claude
 
 # Copy pre-configured settings optimized for devcontainer use
 # See: specs/feature-claude.md#installation
-cp claude-init-config.json /home/${_REMOTE_USER}/.claude.json
+cp claude-init-config.json ${TARGET_HOME}/.claude.json
 
 # Set ownership for both .claude directory and .claude.json file
-chown -R ${_REMOTE_USER}:${_REMOTE_USER} /home/${_REMOTE_USER}/.claude
-chown ${_REMOTE_USER}:${_REMOTE_USER} /home/${_REMOTE_USER}/.claude.json
+chown -R ${_REMOTE_USER}:${_REMOTE_USER} ${TARGET_HOME}/.claude
+chown ${_REMOTE_USER}:${_REMOTE_USER} ${TARGET_HOME}/.claude.json
 
 # Install Claude Code CLI via official installer (download-then-execute pattern)
 # See: specs/feature-claude.md#installation
