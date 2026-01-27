@@ -26,8 +26,8 @@ check "node-version-24" bash -c "echo $NODE_VERSION | grep '^v24\.'"
 # =============================================================================
 
 # ni should be installed globally regardless of Node version
-check "ni-installed" which ni
-check "ni-executable" ni --version
+check "ni-installed" bash -l -c "which ni"
+check "ni-executable" bash -l -c "ni --version"
 
 # =============================================================================
 # Test Environment Variables

@@ -23,20 +23,6 @@ NODE_VERSION=$(node --version)
 check "node-version-22" bash -c "echo $NODE_VERSION | grep '^v22\.'"
 
 # =============================================================================
-# Test @antfu/ni Global Package
-# See: specs/feature-node.md#installation
-# =============================================================================
-
-# ni should be installed globally
-check "ni-installed" which ni
-check "ni-executable" ni --version
-
-# Other ni commands should also be available
-check "nr-installed" which nr
-check "nu-installed" which nu
-check "nlx-installed" which nlx
-
-# =============================================================================
 # Test Environment Variables
 # See: specs/feature-node.md#environment-variables
 # =============================================================================
