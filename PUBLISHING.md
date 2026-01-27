@@ -23,7 +23,7 @@ This automatically triggers the publishing workflow that builds and pushes both 
 
 **What gets published:**
 - Base image → `ghcr.io/gus-costa/devcontainers/base:{version}` and `:latest`
-- All 7 features → `ghcr.io/gus-costa/devcontainers/features/*`
+- All 7 features from `./features/src` → `ghcr.io/gus-costa/devcontainers/features/*`
 
 **Process:**
 
@@ -46,7 +46,7 @@ git push origin v1.0.0
 2. Logs into GHCR using `GITHUB_TOKEN`
 3. Installs `@devcontainers/cli`
 4. Builds and pushes base image with both version tag and `:latest`
-5. Publishes all features from `./features` directory
+5. Publishes all features from `./features/src` directory
 
 **Requirements:**
 - Must have write access to the repository
@@ -102,7 +102,7 @@ git push origin v1.0.0
    - Creates PR with documentation updates if changes detected
 
 **What gets published:**
-- All features from `./features` directory
+- All features from `./features/src` directory
 - Auto-generated README.md files for each feature
 
 **Requirements:**
@@ -139,7 +139,7 @@ devcontainer build \
 devcontainer features publish \
   --namespace gus-costa/devcontainers/features \
   --registry ghcr.io \
-  ./features
+  ./features/src
 ```
 
 ## Testing Workflows

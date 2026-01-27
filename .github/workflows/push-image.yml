@@ -73,4 +73,4 @@ jobs:
         devcontainer features publish \
           --namespace gus-costa/devcontainers/features \
           --registry ghcr.io \
-          ./features
+          ./features/src
