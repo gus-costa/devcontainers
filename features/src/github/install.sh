@@ -10,6 +10,25 @@ set -e
 # See: specs/feature-github.md for installation details
 trap 'echo "Error: GitHub feature installation failed at line $LINENO: $BASH_COMMAND" >&2; exit 1' ERR
 
+# Install required dependencies if not already present
+PACKAGES_TO_INSTALL=()
+
+if ! command -v curl &> /dev/null; then
+    PACKAGES_TO_INSTALL+=(curl)
+fi
+
+# ca-certificates is harder to check, but we can check if the cert directory exists
+if [ ! -d "/etc/ssl/certs" ] || [ -z "$(ls -A /etc/ssl/certs)" ]; then
+    PACKAGES_TO_INSTALL+=(ca-certificates)
+fi
+
+# Only run apt-get if we have packages to install
+if [ ${#PACKAGES_TO_INSTALL[@]} -gt 0 ]; then
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y --no-install-recommends "${PACKAGES_TO_INSTALL[@]}"
+fi
+
 echo "Installing GitHub CLI..."
 
 # Add GitHub CLI GPG key
