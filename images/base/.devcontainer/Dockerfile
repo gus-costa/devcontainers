@@ -71,7 +71,7 @@ RUN useradd -m -s /bin/zsh -u 1000 dev && \
 
 # Persist bash history.
 RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/home/dev/.local/share/history/.bash_history" \
-  && mkdir /home/dev/.local/share/history \
+  && mkdir -p /home/dev/.local/share/history \
   && touch /home/dev/.local/share/history/.bash_history
 
 # Install fzf for fuzzy finding with checksum verification
