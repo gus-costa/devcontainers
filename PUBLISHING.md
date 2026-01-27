@@ -297,6 +297,6 @@ Configure these in repository settings:
 | Secret | Purpose | Required For |
 |--------|---------|--------------|
 | `GITHUB_TOKEN` | Authenticate to GHCR | push-image.yml (auto-provided) |
-| `PAT` | Create PRs | release-pr-image.yml |
+| `PAT` | Create PRs | release-pr-image.yml, release-feature.yml |
 
-`GITHUB_TOKEN` is automatically provided by GitHub Actions. Only `PAT` needs manual configuration for the release PR workflow.
+`GITHUB_TOKEN` is automatically provided by GitHub Actions. Only `PAT` needs manual configuration for workflows that create PRs.
