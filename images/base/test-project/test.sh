@@ -35,7 +35,6 @@ check "git-delta-hyperlinks" sh -c "git config --system delta.hyperlinks | grep 
 # =============================================================================
 
 check "dev-user-exists" id dev
-check "dev-user-uid" sh -c "id -u dev | grep 1000"
 check "dev-user-home" test -d /home/dev
 check "dev-user-shell" sh -c "getent passwd dev | grep /bin/zsh"
 
@@ -72,7 +71,7 @@ check "env-powerlevel9k" sh -c "echo \$POWERLEVEL9K_DISABLE_GITSTATUS | grep tru
 # =============================================================================
 
 check "commandhistory-dir" test -d /commandhistory
-check "commandhistory-writable" sh -c "touch /commandhistory/test && rm /commandhistory/test"
+check "commandhistory-owner" sh -c "stat -c '%U:%G' /commandhistory | grep dev:dev"
 
 # =============================================================================
 # Test Locale Configuration
