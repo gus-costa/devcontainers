@@ -1,0 +1,26 @@
+{
+    "id": "qwen",
+    "version": "1.0.0",
+    "name": "Qwen",
+    "description": "Installs Qwen Code CLI and VS Code extension with persistent configuration mounts.",
+    "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/qwen",
+    "options": {},
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "qwenlm.qwen-code-vscode-ide-companion"
+            ]
+        }
+    },
+    "mounts": [
+        {
+            "source": "${localEnv:HOME}/.qwen",
+            "target": "/home/dev/.qwen",
+            "type": "bind"
+        }
+    ],
+    "containerEnv": {},
+    "installsAfter": [
+         "ghcr.io/gus-costa/devcontainers/features/node:1"
+    ]
+}
