@@ -1,0 +1,26 @@
+{
+    "id": "gemini",
+    "version": "1.0.0",
+    "name": "Gemini",
+    "description": "Installs Gemini CLI and VS Code extension with persistent configuration mounts.",
+    "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/gemini",
+    "options": {},
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Google.gemini-cli-vscode-ide-companion"
+            ]
+        }
+    },
+    "mounts": [
+        {
+            "source": "${localEnv:HOME}/.gemini",
+            "target": "/home/dev/.gemini",
+            "type": "bind"
+        }
+    ],
+    "containerEnv": {},
+    "installsAfter": [
+         "ghcr.io/gus-costa/devcontainers/features/node:1"
+    ]
+}
