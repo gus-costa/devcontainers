@@ -144,6 +144,12 @@ RUN ZSH_IN_DOCKER_SHA256="f74e5b08c295b6c3886654bb63c688e5ea16c58a4209435c4ddbab
       -x && \
     rm /tmp/zsh-in-docker.sh
 
+COPY --chown=dev:dev env /home/dev/.local/bin/env
+
+RUN echo "\n. \"\$HOME/.local/bin/env\"" >> "/home/dev/.profile" && \
+    echo "\n. \"\$HOME/.local/bin/env\"" >> "/home/dev/.bashrc" && \
+    echo "\n. \"\$HOME/.local/bin/env\"" >> "/home/dev/.zshrc"
+
 # =============================================================================
 # Final Setup
 # =============================================================================
