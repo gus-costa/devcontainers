@@ -1,6 +1,6 @@
 {
   "id": "base",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "Base Development Container",
   "description": "General-purpose development container with network isolation via Squid proxy and iptables firewall.",
   "documentationURL": "https://github.com/gus-costa/devcontainers",
