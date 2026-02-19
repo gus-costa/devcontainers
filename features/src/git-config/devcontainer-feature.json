@@ -1,0 +1,11 @@
+{
+  "id": "git-config",
+  "version": "1.0.0",
+  "name": "Git Config",
+  "description": "Copies host's .gitconfig into the container",
+  "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/git-config",
+  "mounts": [
+    "source=${localEnv:HOME}/.gitconfig,target=/tmp/host.gitconfig,type=bind,readonly"
+  ],
+  "postStartCommand": "[ -f /tmp/host.gitconfig ] && cp /tmp/host.gitconfig ~/.gitconfig || true"
+}

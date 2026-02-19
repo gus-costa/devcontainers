@@ -58,6 +58,13 @@
             "name": "Proxy",
             "description": "Routes all HTTP/HTTPS traffic through Squid proxy and initializes firewall at container start.",
             "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/proxy"
+        },
+        {
+            "id": "git-config",
+            "version": "1.0.0",
+            "name": "Git Config",
+            "description": "Copies host's .gitconfig into the container",
+            "documentationURL": "https://github.com/gus-costa/devcontainers/tree/main/features/git-config"
         }
     ]
 }
